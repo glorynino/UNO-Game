@@ -41,5 +41,12 @@ public class Card {
         this.numcard = numcard;
     }
 
-
+    @Override
+    public String toString() {
+        return "Card{" +
+                "numcard=" + numcard +
+                ", couleur='" + couleur + '\'' +
+                ", type='" + type + '\'' +
+                '}';
+    }
 }
