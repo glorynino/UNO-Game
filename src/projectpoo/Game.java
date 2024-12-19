@@ -2,8 +2,6 @@ package projectpoo;
 import java.util.ArrayList;
 import java.util.Scanner;
 public class Game {
-
-
         private ArrayList<Player> players; // Liste des joueurs
         private int currentPlayerIndex;   // Indice du joueur actuel
         private boolean isGameOver;       // Indicateur de fin de jeu
@@ -43,7 +41,6 @@ public class Game {
             checkGameOver();
         }
 
-        private void choosecolor (Player player) {
             System.out.println("choisissez une color pour continuer: 1.Rouge 2.Blue 3.Jaune 4.Vert");
             Scanner sc = new Scanner(System.in);
             Card cardsup = new Card();
@@ -62,7 +59,6 @@ public class Game {
             }
 
 
-
         }
 
         // Méthode pour gérer le tour d'un joueur
@@ -74,16 +70,11 @@ public class Game {
             } else {
                 if (cardsup instanceof WildCard) {
                     Player previousplayer = players.get(currentPlayerIndex - 1);
-                    choosecolor(previousplayer);
 
                 }
-                if ( cardsup instanceof WildDrawFourCard) {
-                    // il faut comprendre belik gethand elle va afficher les ellement ta3 l array de la façon toString dans le card
-                    System.out.println("les carte du joueur son tu peux choisir n'importe  " + player.getHand());
+                if (cardsup instanceof WildDrawFourCard) {
                     Player previousplayer = players.get(currentPlayerIndex - 1);
-                    choosecolor(previousplayer);
 
-                }else {
                     j= 1;
                     for (int i = 0; i < player.getHand().size() ; i++) {
                         if (player.getHand().get(i).getCouleur().equalsIgnoreCase(cardsup.getCouleur()) || player.getHand().get(i).getNumcard() == cardsup.getNumcard()) {
