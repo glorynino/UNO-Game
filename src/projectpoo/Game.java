@@ -127,7 +127,7 @@ public class Game {
                 if (cardsup instanceof Reverse) {
                     isclockwise = !isclockwise;
                     player = players.get((currentPlayerIndex - 1) % players.size());                    
-                }
+                } //reverse le tour de jeu
                 j= 1;
                 for (int i = 0; i < player.getHand().size() ; i++) {
                     if (player.getHand().get(i).getCouleur().equalsIgnoreCase(cardsup.getCouleur()) || player.getHand().get(i).getNumcard() == cardsup.getNumcard()) {
