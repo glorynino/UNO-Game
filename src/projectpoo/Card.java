@@ -1,3 +1,4 @@
+package projectpoo;
 public class Card {
     private int numcard;
     private String couleur,type;

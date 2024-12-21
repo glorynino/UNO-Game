@@ -1,3 +1,4 @@
+package projectpoo;
 public class Drawtwo extends Card{
     // carte comme +2 wla reverse wla skip
     public Drawtwo(String couleur) {

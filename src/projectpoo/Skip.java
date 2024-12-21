@@ -1,3 +1,4 @@
+package projectpoo;
 public class Skip extends Card{
     public Skip(String couleur){
         super(-1,couleur,"Skip");
