@@ -50,8 +50,8 @@ public class Deck {
             player.draw(card);
           }
         }
-      }
-      public void ressetDeck(){
+  }
+  public void ressetDeck(){
     deck.clear();
     createDeck();
     shuffleDeck();
