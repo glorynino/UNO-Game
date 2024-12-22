@@ -2,6 +2,7 @@
 package projectpoo;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.math.*;
 public class Game {
     private ArrayList<Card> cardsupcard;
     Deck deck = new Deck();
@@ -43,9 +44,9 @@ public class Game {
         if (isclockwise) {
             currentPlayerIndex = (currentPlayerIndex + 1) % players.size();
         } else {
-            currentPlayerIndex = (currentPlayerIndex - 1 + players.size()) % players.size();
+            currentPlayerIndex = Math.abs((currentPlayerIndex - 1 + players.size()) % players.size());
         }
-        
+
 
 
         checkGameOver();
@@ -126,7 +127,7 @@ public class Game {
                 }
                 if (cardsup instanceof Reverse) {
                     isclockwise = !isclockwise;
-                    player = players.get((currentPlayerIndex - 1) % players.size());                    
+                    player = players.get(Math.abs((currentPlayerIndex - 1) % players.size()));                    
                 } //reverse le tour de jeu
                 j= 1;
                 for (int i = 0; i < player.getHand().size() ; i++) {
