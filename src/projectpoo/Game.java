@@ -2,7 +2,6 @@
 package projectpoo;
 import java.util.ArrayList;
 import java.util.Scanner;
-import java.math.*;
 public class Game {
     private ArrayList<Card> cardsupcard;
     Deck deck = new Deck();
