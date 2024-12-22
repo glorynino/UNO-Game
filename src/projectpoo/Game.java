@@ -7,6 +7,7 @@ public class Game {
     Deck deck = new Deck();
     private ArrayList<Player> players; // Liste des joueurs
     private int currentPlayerIndex;   // Indice du joueur actuel
+    private int previousplayerIndex;
     private boolean isGameOver;       // Indicateur de fin de jeu
     private boolean isclockwise;
     
@@ -126,7 +127,9 @@ public class Game {
                 }
                 if (cardsup instanceof Reverse) {
                     isclockwise = !isclockwise;
-                    player = players.get(Math.abs((currentPlayerIndex - 1) % players.size()));                    
+                    previousplayerIndex = currentPlayerIndex - 1;
+                    player = players.get(Math.abs((previousplayerIndex - 1) % players.size())); 
+                    currentPlayerIndex = (previousplayerIndex - 1) % players.size();                   
                 } //reverse le tour de jeu
                 j= 1;
                 for (int i = 0; i < player.getHand().size() ; i++) {
