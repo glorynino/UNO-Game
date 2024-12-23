@@ -10,4 +10,5 @@ public class Drawtwo extends Card{
         return "type: drawtwo" +
                 "couleur: "+getCouleur();
     }
+   
 }
