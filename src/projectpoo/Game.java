@@ -118,7 +118,7 @@ public class Game {
                 }
 
             }
-            else {
+            
                 if (cardsup instanceof Drawtwo) {
                     deck.drawCard(player, 2);
                 }
@@ -143,7 +143,6 @@ public class Game {
 
 
         }
-    }
     //nsuprimi les player qui ont plus de carte dans l array
     @SuppressWarnings("unused")
     private void deletejoueur(ArrayList<Player> players){
