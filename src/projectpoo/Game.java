@@ -117,19 +117,21 @@ public class Game {
 
                 }
 
-            }
+            }  else {
             
                 if (cardsup instanceof Drawtwo) {
-                    deck.drawCard(player, 2);
+                    deck.drawCard(player, 2); // hna dert bla fonction te3 drw card bach nzid llhand te3 lplayer 2 cards
                 }
                 if (cardsup instanceof Skip) {
-                    player = players.get((currentPlayerIndex + 1) % players.size());
+                    player = players.get((currentPlayerIndex + 1) % players.size()); // hadi bayna skipit player ye3ni bedelt current player
                 }
                 if (cardsup instanceof Reverse) {
+                    // fhad l if dert une variabale li hiya clockwise bach ne3ref ida rahi reversi wla non bach mn be3d f take turn ykhdem bune methode bayna
+                    // apres sauvgardit le joueur qui joue avant le reverse bach mn be3d ndir bih current player w dert math.abs bach majinich valeur negative
                     isclockwise = !isclockwise;
                     previousplayerIndex = currentPlayerIndex - 1;
                     player = players.get(Math.abs((previousplayerIndex - 1) % players.size())); 
-                    currentPlayerIndex = (previousplayerIndex - 1) % players.size();                   
+                    currentPlayerIndex = (previousplayerIndex - 1) % players.size(); // hna savit current player bach ki ytle3 l take turn ma ysrach error wyb9a ybokli we7do                   
                 } //reverse le tour de jeu
                 j= 1;
                 for (int i = 0; i < player.getHand().size() ; i++) {
@@ -143,6 +145,8 @@ public class Game {
 
 
         }
+
+    }
     //nsuprimi les player qui ont plus de carte dans l array
     @SuppressWarnings("unused")
     private void deletejoueur(ArrayList<Player> players){
