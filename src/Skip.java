@@ -1,7 +1,7 @@
 package src;
 public class Skip extends Card{
     public Skip(String couleur){
-        super(couleur,"Skip");
+        super(couleur,"Skip", "Skip");
     }
 
     @Override

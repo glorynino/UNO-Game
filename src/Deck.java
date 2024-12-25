@@ -12,11 +12,11 @@ public class Deck {
     String[] couleurs = {"red", "green", "blue", "yellow"};
 
     for (String coleur : couleurs) {
-      deck.add(new Card (coleur, "Number"));
+      deck.add(new Card (coleur, "Number", "0"));
 
       for (int i=1; i<=9; i++) {
-        deck.add(new Card(coleur, "Number"));
-        deck.add(new Card( coleur, "Number"));
+        deck.add(new Card(coleur, "Number", String.valueOf(i)));
+        deck.add(new Card( coleur, "Number", String.valueOf(i)));
       }
 
       deck.add(new Drawtwo(coleur));

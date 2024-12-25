@@ -1,7 +1,7 @@
 package src;
 public class WildCard extends Card {
     public WildCard() {
-        super( "none", "wild"); // Pas de couleur par défaut
+        super( "none", "wild", "wild"); // Pas de couleur par défaut
     }
 
     @Override

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 public class Game {
     private ArrayList<Card> cardsupcard;
-    Deck deck = new Deck();
+    Deck deck;
     private ArrayList<Player> players; // Liste des joueurs
     private int currentPlayerIndex;   // Indice du joueur actuel
     private int previousplayerIndex;
@@ -135,7 +135,7 @@ public class Game {
                 } //reverse le tour de jeu
                 j= 1;
                 for (int i = 0; i < player.getHand().size() ; i++) {
-                    if (player.getHand().get(i).getCouleur().equalsIgnoreCase(cardsup.getCouleur()) || player.getHand().get(i).getNumcard() == cardsup.getNumcard()) {
+                    if (player.getHand().get(i).getCouleur().equalsIgnoreCase(cardsup.getCouleur()) || player.getHand().get(i).getSymbol() == cardsup.getSymbol()) {
                         System.out.println("carte"+j+player.getHand().get(i));
                         j++;
                     }

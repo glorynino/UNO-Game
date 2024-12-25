@@ -1,7 +1,7 @@
 package src;
 public class Reverse extends Card{
     public Reverse(String couleur){
-        super(couleur,"reverse");
+        super(couleur,"reverse", "reverse");
     }
 
 
