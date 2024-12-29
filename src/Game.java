@@ -50,7 +50,7 @@ class Game {
         System.out.println(player.getNom() + ", choose a color to continue: 1.Red 2.Blue 3.Yellow 4.Green");
         Scanner sc = new Scanner(System.in);
         String color = sc.nextLine();
-
+        sc.close();
         switch (color) {
             case "1": return "red";
             case "2": return "blue";
@@ -60,6 +60,7 @@ class Game {
                 System.out.println("Invalid choice. Please try again.");
                 return chooseColor(player);
         }
+        
     }
 
     private void playTurn(Player player, Card cardsup) {
