@@ -4,13 +4,16 @@ import java.util.ArrayList;
 public class Player {
     private String nom;
     private ArrayList<Card> hand = new ArrayList<Card>();
+    private boolean isBot;
 
-    public Player() {
-        this.nom = "indefined";
+
+    public Player(String nom, boolean isBot) {
+        this.nom = nom;
+        this.isBot = isBot;
     }
 
-    public Player(String nom) {
-        this.nom = nom;
+    public boolean getIsBot() {
+        return isBot;
     }
 
     public String getNom() {

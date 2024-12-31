@@ -2,7 +2,7 @@ package src;
 
     public class WildDrawFourCard extends Card {
         public WildDrawFourCard() {
-            super( "none", "wild+4", "wild+4"); // Pas de couleur par défaut
+            super( "none", "wild+4"); // Pas de couleur par défaut
         }
 
         @Override
@@ -18,7 +18,7 @@ package src;
         @Override
         public String toString() {
             return "WildDrawFourCard{" +
-                    "type='" + getType() + '\'' +
+                    "symbol='" + getSymbol() + '\'' +
                     '}';
         }
     }
