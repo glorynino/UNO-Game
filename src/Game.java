@@ -1,4 +1,5 @@
 package src;
+
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.Random;
