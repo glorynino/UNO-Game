@@ -7,8 +7,6 @@ public class Drawtwo extends Card{
 
     @Override
     public String toString() {
-        return "symbol: drawtwo" +
-                "couleur: "+getCouleur();
+        return "Card{couleur='" + getCouleur() + "', symbol=" + getSymbol() + '}';
     }
-   
 }

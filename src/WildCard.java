@@ -16,8 +16,7 @@ public class WildCard extends Card {
 
     @Override
     public String toString() {
-        return "WildCard{" +
-                "type='" + getSymbol() + '\'' +
-                '}';
+        return "Card{couleur='" + getCouleur() + "', symbol=" + getSymbol() + '}';
     }
 }
+

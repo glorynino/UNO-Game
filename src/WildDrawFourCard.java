@@ -17,9 +17,7 @@ package src;
 
         @Override
         public String toString() {
-            return "WildDrawFourCard{" +
-                    "symbol='" + getSymbol() + '\'' +
-                    '}';
+            return "Card{couleur='" + getCouleur() + "', symbol=" + getSymbol() + '}';
         }
     }
 

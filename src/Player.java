@@ -31,4 +31,31 @@ public class Player {
     public void play(Card card) {
         hand.remove(card);
     }
+
+    public void displayPlayableCards(Card topCard) {
+        System.out.println(nom + "'s playable cards:");
+        int index = 1;
+        ArrayList<Card> playableCards = new ArrayList<>();
+        
+        for (Card card : hand) {
+            if (isValidCard(card, topCard)) {
+                System.out.println(index + ": " + card);
+                playableCards.add(card);
+                index++;
+            }
+        }
+        
+        if (playableCards.isEmpty()) {
+            System.out.println("No playable cards. Must draw a card.");
+        }
+    }
+
+    private boolean isValidCard(Card card, Card topCard) {
+        if (card instanceof WildCard || card instanceof WildDrawFourCard) {
+            return true;
+        }
+        return card.getCouleur().equals(topCard.getCouleur()) || card.getSymbol().equals(topCard.getSymbol());
+    }
+
 }
+

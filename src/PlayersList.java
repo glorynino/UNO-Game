@@ -91,5 +91,18 @@ public class PlayersList {
 
         System.out.println("Player not found: " + playerName);
     }
+
+    public Player getNextPlayer() {
+        if (currentPlayerNode == null) {
+            System.out.println("No players in the game.");
+            return null;
+        }
+        return currentPlayerNode.next.player;
+      
+    }
+
+    public PlayerNode getFirstNode() {
+        return currentPlayerNode;
+    }
 }
 

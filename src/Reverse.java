@@ -7,6 +7,7 @@ public class Reverse extends Card{
 
     @Override
     public String toString() {
-        return super.toString();
+        return "Card{couleur='" + getCouleur() + "', symbol=" + getSymbol() + '}';
     }
 }
+
