@@ -1,0 +1,55 @@
+package Unostart;
+
+import javax.swing.*;
+import java.awt.*;
+import java.io.InputStream;
+import NSwing.*;
+public class Nchoixperso extends JFrame {
+    public Nchoixperso() {
+        this.setTitle("Choice the Number of Player");
+        this.setExtendedState(JFrame.MAXIMIZED_BOTH); // maximise comme Google ou IntelliJ
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setLocationRelativeTo(null);
+
+        // Création du fond avec l'image
+        JPanel fondPanel = new JPanel() {
+            private final Image imageFond = new ImageIcon(getClass().getResource("/fondchoixpersonnage.png")).getImage();
+
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                g.drawImage(imageFond, 0, 0, getWidth(), getHeight(), this);
+            }
+        };
+
+        fondPanel.setLayout(null);
+        setContentPane(fondPanel);
+
+        // Création du JLabel
+        JLabel label = new JLabel("Select the number of players !");
+        label.setBounds(300, 100, 700, 60);
+        // Position et taille élargies
+        label.setForeground(Color.WHITE);
+
+        try {
+            InputStream is = getClass().getResourceAsStream("/Orbitron-VariableFont_wght.ttf");
+            if (is != null) {
+                Font luckiestGuyFont = Font.createFont(Font.TRUETYPE_FONT, is).deriveFont(40f);
+                GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+                ge.registerFont(luckiestGuyFont);
+                label.setFont(luckiestGuyFont);
+            } else {
+                System.err.println("La police n’a pas été trouvée !");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        fondPanel.add(label); // Ajout du JLabel dans le panel fondPanel
+        this.setVisible(true);
+    }
+
+    public static void main(String[] args) {
+        new Nchoixperso();
+    }
+}

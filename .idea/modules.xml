@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/NSwing/NSwing.iml" filepath="$PROJECT_DIR$/NSwing/NSwing.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Unostart/UnoStart.iml" filepath="$PROJECT_DIR$/Unostart/UnoStart.iml" />
+      <module fileurl="file://$PROJECT_DIR$/componentUno.iml" filepath="$PROJECT_DIR$/componentUno.iml" />
+    </modules>
+  </component>
+</project>
