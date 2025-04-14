@@ -1,3 +1,4 @@
+package Unostart;
 import javax.swing.*;
 import java.awt.*;
 
@@ -10,7 +11,7 @@ public class NMenu extends JFrame {
         this.setLocationRelativeTo(null); // centre la fenêtre
 
         JPanel fondPanel = new JPanel() {
-            private Image imageFond = new ImageIcon("Unostart//src//ImageMenuLOGO.jpg").getImage();
+            private Image imageFond = new ImageIcon("src\\Unostart\\ImageUNOlogo.png").getImage();
 
             @Override
             protected void paintComponent(Graphics g) {
