@@ -64,10 +64,9 @@ public class Nchoixperso extends JFrame {
         fondPanel.add(twoPlayersButton);
         fondPanel.add(threePlayersButton);
         fondPanel.add(fourPlayersButton);
+        NBouton bouton = new NBouton();
+
         this.setVisible(true);
     }
 
-    public static void main(String[] args) {
-        new Nchoixperso();
-    }
 }
