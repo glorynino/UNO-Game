@@ -2,7 +2,6 @@ package NSwing;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.awt.geom.Area;
 
 public class DiamondButton extends JButton {
     private Color buttonColor;

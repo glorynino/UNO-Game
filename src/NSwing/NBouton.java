@@ -15,14 +15,14 @@ public class NBouton extends JButton {
 
 
         try {
-            InputStream is = getClass().getResourceAsStream("/Unostart/Orbitron-VariableFont_wght.ttf");
+            InputStream is = getClass().getResourceAsStream("src/Fonts/Fredoka-VariableFont_wdth,wght.ttf");
             if (is != null) {
                 Font luckiestGuyFont = Font.createFont(Font.TRUETYPE_FONT, is).deriveFont(40f);
                 GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
                 ge.registerFont(luckiestGuyFont);
                 this.setFont(luckiestGuyFont);
             } else {
-                System.err.println("La police n’a pas été trouvée !");
+                System.err.println("La police n'a pas été trouvée !");
             }
         } catch (Exception e) {
             e.printStackTrace();

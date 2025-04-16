@@ -3,15 +3,15 @@ package NSwing;
 import javax.swing.*;
 import java.awt.*;
 
-public class Nbackground extends JFrame {
-     Nbackground(String message){
+public class NBackground extends JFrame {
+     NBackground(String message){
          this.setTitle(message);
          this.setExtendedState(JFrame.MAXIMIZED_BOTH);
          this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
          this.setLocationRelativeTo(null); // centre la fenêtre
 
          JPanel fondPanel = new JPanel() {
-             private Image imageFond = new ImageIcon("src/Unostart/imageUNO.png").getImage();
+             private Image imageFond = new ImageIcon("src/Images/imageUNO.png").getImage();
 
              @Override
              protected void paintComponent(Graphics g) {

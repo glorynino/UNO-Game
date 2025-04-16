@@ -2,7 +2,7 @@ package Unostart;
 
 import javax.swing.*;
 import java.awt.*;
-import NSwing.NBouton;
+import NSwing.*;
 
 public class NMenu extends JFrame {
 
@@ -13,7 +13,7 @@ public class NMenu extends JFrame {
         this.setLocationRelativeTo(null); // Centre la fenêtre
 
         JPanel fondPanel = new JPanel() {
-            private Image imageFond = new ImageIcon("src/Unostart/imageUNO.png").getImage();
+            private Image imageFond = new ImageIcon("src/Images/imageUNO.png").getImage();
 
             @Override
             protected void paintComponent(Graphics g) {
@@ -23,7 +23,7 @@ public class NMenu extends JFrame {
         };
 
         // Charger l'image du logo
-        ImageIcon logoIcon = new ImageIcon("src/Unostart/LOGOpng.png");
+        ImageIcon logoIcon = new ImageIcon("src/Images/LogoUNO.png");
 
         // Redimensionner l'image du logo
         Image logoImage = logoIcon.getImage();
@@ -53,7 +53,7 @@ public class NMenu extends JFrame {
         gbc.insets = new Insets(20, 0, 0, 0);// Espacement au-dessus du bouton
         Bstart.addActionListener(e -> {
             new Nchoixperso();
-            dispose();           // qu'on tu ecrit "e" veut dire "action event" et donc le bloc represente les intruction executer
+            this.dispose();           // qu'on tu ecrit "e" veut dire "action event" et donc le bloc represente les intruction executer
                                      // et qui remplace la methode " actionPerformed" action listener est une methode abstraire !!!
         });
         fondPanel.add(Bstart, gbc);

@@ -17,7 +17,7 @@ public class Nchoixperso extends JFrame {
 
         // Création du fond avec l'image
         JPanel fondPanel = new JPanel() {
-            private final Image imageFond = new ImageIcon(getClass().getResource("fondchoixpersonnage.png")).getImage();
+            private final Image imageFond = new ImageIcon(getClass().getResource("src/Images/fondchoixpersonnage.png")).getImage();
 
             @Override
             protected void paintComponent(Graphics g) {
@@ -36,14 +36,14 @@ public class Nchoixperso extends JFrame {
         label.setForeground(Color.WHITE);
 
         try {
-            InputStream is = getClass().getResourceAsStream("Orbitron-VariableFont_wght.ttf");
+            InputStream is = getClass().getResourceAsStream("src/Fonts/Orbitron-VariableFont_wght.ttf");
             if (is != null) {
                 Font luckiestGuyFont = Font.createFont(Font.TRUETYPE_FONT, is).deriveFont(40f);
                 GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
                 ge.registerFont(luckiestGuyFont);
                 label.setFont(luckiestGuyFont);
             } else {
-                System.err.println("La police n’a pas été trouvée !");
+                System.err.println("La police n'a pas été trouvée !");
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -64,7 +64,7 @@ public class Nchoixperso extends JFrame {
         fondPanel.add(twoPlayersButton);
         fondPanel.add(threePlayersButton);
         fondPanel.add(fourPlayersButton);
-        NBouton bouton = new NBouton();
+        //NBouton bouton = new NBouton();
 
         this.setVisible(true);
     }
