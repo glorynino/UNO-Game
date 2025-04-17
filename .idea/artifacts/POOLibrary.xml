@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="POOLibrary">
+    <output-path>$PROJECT_DIR$/out/artifacts/POOLibrary</output-path>
+    <root id="archive" name="POOLibrary.jar">
+      <element id="dir-copy" path="$PROJECT_DIR$/out" />
+    </root>
+  </artifact>
+</component>

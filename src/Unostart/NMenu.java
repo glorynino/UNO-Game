@@ -13,7 +13,7 @@ public class NMenu extends JFrame {
         this.setLocationRelativeTo(null); // Centre la fenêtre
 
         JPanel fondPanel = new JPanel() {
-            private Image imageFond = new ImageIcon("src/Images/imageUNO.png").getImage();
+            private final Image imageFond = new ImageIcon("src/Images/imageUNO.png").getImage();
 
             @Override
             protected void paintComponent(Graphics g) {
@@ -23,7 +23,7 @@ public class NMenu extends JFrame {
         };
 
         // Charger l'image du logo
-        ImageIcon logoIcon = new ImageIcon("src/Images/LogoUNO.png");
+        ImageIcon logoIcon = new ImageIcon("src/Images/LOGOpng.png");
 
         // Redimensionner l'image du logo
         Image logoImage = logoIcon.getImage();

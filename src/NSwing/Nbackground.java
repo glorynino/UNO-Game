@@ -11,7 +11,7 @@ public class NBackground extends JFrame {
          this.setLocationRelativeTo(null); // centre la fenêtre
 
          JPanel fondPanel = new JPanel() {
-             private Image imageFond = new ImageIcon("src/Images/imageUNO.png").getImage();
+             private final Image imageFond = new ImageIcon("src/Images/imageUNO.png").getImage();
 
              @Override
              protected void paintComponent(Graphics g) {

@@ -17,7 +17,7 @@ public class Nchoixperso extends JFrame {
 
         // Création du fond avec l'image
         JPanel fondPanel = new JPanel() {
-            private final Image imageFond = new ImageIcon(getClass().getResource("src/Images/fondchoixpersonnage.png")).getImage();
+            private final Image imageFond = new ImageIcon("src/Images/fondchoixpersonnage.png").getImage();
 
             @Override
             protected void paintComponent(Graphics g) {
@@ -36,7 +36,7 @@ public class Nchoixperso extends JFrame {
         label.setForeground(Color.WHITE);
 
         try {
-            InputStream is = getClass().getResourceAsStream("src/Fonts/Orbitron-VariableFont_wght.ttf");
+            InputStream is = getClass().getResourceAsStream("/Fonts/Orbitron-VariableFont_wght.ttf");
             if (is != null) {
                 Font luckiestGuyFont = Font.createFont(Font.TRUETYPE_FONT, is).deriveFont(40f);
                 GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
