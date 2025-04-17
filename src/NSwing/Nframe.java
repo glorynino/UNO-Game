@@ -9,4 +9,11 @@ public class NFrame extends JFrame {
     this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     this.setLocationRelativeTo(null);
   }
+
+  public NFrame(String title) {
+    this.setTitle(title);
+    this.setExtendedState(JFrame.MAXIMIZED_BOTH);
+    this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    this.setLocationRelativeTo(null);
+  }
 }

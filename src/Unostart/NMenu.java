@@ -2,6 +2,8 @@ package Unostart;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.IOException;
+
 import NSwing.*;
 
 public class NMenu extends JFrame {
@@ -30,7 +32,7 @@ public class NMenu extends JFrame {
         Image resizedLogo = logoImage.getScaledInstance(300, 300, Image.SCALE_SMOOTH); // Taille désirée : 300x150 (ajuste à ta convenance)
         logoIcon = new ImageIcon(resizedLogo);
 
-        JLabel LogoUno = new JLabel(logoIcon);
+        ALabel LogoUno = new ALabel(logoIcon);
 
         fondPanel.setLayout(new GridBagLayout()); // Layout flexible
         GridBagConstraints gbc = new GridBagConstraints();
@@ -52,7 +54,11 @@ public class NMenu extends JFrame {
         gbc.gridy = 1; // Le bouton en dessous du logo
         gbc.insets = new Insets(20, 0, 0, 0);// Espacement au-dessus du bouton
         Bstart.addActionListener(e -> {
-            new Nchoixperso();
+            try {
+                new Nchoixperso();
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            }
             this.dispose();           // qu'on tu ecrit "e" veut dire "action event" et donc le bloc represente les intruction executer
                                      // et qui remplace la methode " actionPerformed" action listener est une methode abstraire !!!
         });

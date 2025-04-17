@@ -1,22 +1,27 @@
 package Unostart;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
-import java.io.InputStream;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+
 import NSwing.*;
-public class Nchoixperso extends JFrame {
+
+public class Nchoixperso extends NFrame {
     private static final Color GREEN_BUTTON = new Color(76, 175, 80);
     private static final Color YELLOW_BUTTON = new Color(255, 193, 7);
     private static final Color RED_BUTTON = new Color(244, 67, 54);
-    public Nchoixperso() {
+    public Nchoixperso() throws IOException {
 
         this.setTitle("Choice the Number of Player");
-        this.setExtendedState(JFrame.MAXIMIZED_BOTH); // maximise comme Google ou IntelliJ
+        /*this.setExtendedState(JFrame.MAXIMIZED_BOTH); // maximise comme Google ou IntelliJ
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setLocationRelativeTo(null);
-
+        this.setLocationRelativeTo(null);*/
+        BufferedImage imageFond = ImageIO.read(new File("src/Images/fondchoixpersonnage.png"));
         // Création du fond avec l'image
-        JPanel fondPanel = new JPanel() {
+        APanel fondPanel = new APanel(imageFond); /*{
             private final Image imageFond = new ImageIcon("src/Images/fondchoixpersonnage.png").getImage();
 
             @Override
@@ -24,18 +29,18 @@ public class Nchoixperso extends JFrame {
                 super.paintComponent(g);
                 g.drawImage(imageFond, 0, 0, getWidth(), getHeight(), this);
             }
-        };
+        };*/
 
-        fondPanel.setLayout(null);
+        //fondPanel.setLayout(null);
         setContentPane(fondPanel);
 
         // Création du JLabel
-        JLabel label = new JLabel("Select the number of players !");
+        ALabel label = new ALabel("Select the number of players !");
         label.setBounds(300, 100, 700, 60);
         // Position et taille élargies
-        label.setForeground(Color.WHITE);
+        //label.setForeground(Color.WHITE);
 
-        try {
+        /*try {
             InputStream is = getClass().getResourceAsStream("/Fonts/Orbitron-VariableFont_wght.ttf");
             if (is != null) {
                 Font luckiestGuyFont = Font.createFont(Font.TRUETYPE_FONT, is).deriveFont(40f);
@@ -47,7 +52,7 @@ public class Nchoixperso extends JFrame {
             }
         } catch (Exception e) {
             e.printStackTrace();
-        }
+        }*/
 
         fondPanel.add(label); // Ajout du JLabel dans le panel fondPanel
         // Création des boutons en forme de losange
