@@ -15,66 +15,93 @@ public class Nchoixperso extends NFrame implements PlayerChoiceListener {
     
     public Nchoixperso() {
         this.setTitle("Choose the Number of Players");
-        this.setExtendedState(JFrame.MAXIMIZED_BOTH); // maximise comme Google ou IntelliJ
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setExtendedState(NFrame.MAXIMIZED_BOTH);
+        this.setDefaultCloseOperation(NFrame.EXIT_ON_CLOSE);
         this.setLocationRelativeTo(null);
 
-        // Création du fond avec l'image
-        APanel fondPanel = new APanel() {
-            private final Image imageFond = new ImageIcon("src/Images/fondchoixpersonnage.png").getImage();
+        // Create background panel with image
+        APanel backgroundPanel = new APanel() {
+            private final Image backgroundImage = new ImageIcon("src/Images/fondchoixpersonnage.png").getImage();
 
             @Override
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
-                g.drawImage(imageFond, 0, 0, getWidth(), getHeight(), this);
+                g.drawImage(backgroundImage, 0, 0, getWidth(), getHeight(), this);
             }
         };
+        
+        // Use BorderLayout for the main panel
+        backgroundPanel.setLayout(new BorderLayout());
+        setContentPane(backgroundPanel);
 
-        fondPanel.setLayout(null);
-        setContentPane(fondPanel);
-
-        // Création du JLabel
-        ALabel label = new ALabel("Select the number of players!");
-        label.setBounds(300, 100, 700, 60);
-        // Position et taille élargies
-        label.setForeground(Color.WHITE);
-
+        // Create a panel to hold centered content
+        APanel contentPanel = new APanel();
+        contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.Y_AXIS));
+        contentPanel.setOpaque(false);
+        
+        // Create title label
+        ALabel titleLabel = new ALabel("Select the number of players!");
+        titleLabel.setForeground(Color.WHITE);
+        titleLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        
+        // Apply font
         try {
             InputStream is = getClass().getResourceAsStream("/Fonts/Orbitron-VariableFont_wght.ttf");
             if (is != null) {
-                Font luckiestGuyFont = Font.createFont(Font.TRUETYPE_FONT, is).deriveFont(40f);
+                Font customFont = Font.createFont(Font.TRUETYPE_FONT, is).deriveFont(40f);
                 GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-                ge.registerFont(luckiestGuyFont);
-                label.setFont(luckiestGuyFont);
+                ge.registerFont(customFont);
+                titleLabel.setFont(customFont);
             } else {
-                System.err.println("La police n'a pas été trouvée !");
+                titleLabel.setFont(new Font("Arial", Font.BOLD, 40));
+                System.err.println("Custom font not found!");
             }
         } catch (Exception e) {
+            titleLabel.setFont(new Font("Arial", Font.BOLD, 40));
             e.printStackTrace();
         }
-
-        fondPanel.add(label); // Ajout du JLabel dans le panel fondPanel
         
-        // Création des boutons en forme de losange
+        // Add title to content panel
+        contentPanel.add(titleLabel);
+        contentPanel.add(Box.createRigidArea(new Dimension(0, 60))); // Vertical spacing
+        
+        // Create panel for diamond buttons
+        APanel buttonPanel = new APanel();
+        buttonPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 50, 20)); // Center with horizontal spacing
+        buttonPanel.setOpaque(false);
+        
+        // Create the diamond buttons
         DiamondButton twoPlayersButton = new DiamondButton(GREEN_BUTTON, 2);
         DiamondButton threePlayersButton = new DiamondButton(YELLOW_BUTTON, 3);
         DiamondButton fourPlayersButton = new DiamondButton(RED_BUTTON, 4);
 
-        // Set the listener for each button
+        // Set listeners
         twoPlayersButton.setPlayerChoiceListener(this);
         threePlayersButton.setPlayerChoiceListener(this);
         fourPlayersButton.setPlayerChoiceListener(this);
 
-        // Positionnement des boutons
-        twoPlayersButton.setBounds(350, 250, 140, 140);
-        threePlayersButton.setBounds(550, 250, 140, 140);
-        fourPlayersButton.setBounds(750, 250, 140, 140);
+        // Set button sizes
+        Dimension buttonSize = new Dimension(140, 140);
+        twoPlayersButton.setPreferredSize(buttonSize);
+        threePlayersButton.setPreferredSize(buttonSize);
+        fourPlayersButton.setPreferredSize(buttonSize);
 
-        // Ajout des boutons au panel
-        fondPanel.add(twoPlayersButton);
-        fondPanel.add(threePlayersButton);
-        fondPanel.add(fourPlayersButton);
-
+        // Add buttons to panel
+        buttonPanel.add(twoPlayersButton);
+        buttonPanel.add(threePlayersButton);
+        buttonPanel.add(fourPlayersButton);
+        
+        // Add button panel to content panel
+        contentPanel.add(buttonPanel);
+        
+        // Center the content panel vertically
+        APanel wrapperPanel = new APanel(new GridBagLayout());
+        wrapperPanel.setOpaque(false);
+        wrapperPanel.add(contentPanel);
+        
+        // Add wrapper panel to background panel
+        backgroundPanel.add(wrapperPanel, BorderLayout.CENTER);
+        
         this.setVisible(true);
     }
     

@@ -1,6 +1,7 @@
 package NSwing;
 import java.awt.FlowLayout;
 import java.awt.Graphics;
+import java.awt.GridBagLayout;
 import java.awt.image.BufferedImage;
 import javax.swing.*;
 
@@ -20,6 +21,10 @@ public class APanel extends JPanel {
   
   public APanel(FlowLayout flowLayout) {
     super(flowLayout);
+  }
+
+  public APanel(GridBagLayout gridBagLayout) {
+    super(gridBagLayout);
   }
 
   @Override
