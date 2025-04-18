@@ -2,7 +2,6 @@ package Unostart;
 
 import javax.swing.*;
 import java.awt.*;
-import java.io.IOException;
 
 import NSwing.*;
 
@@ -14,7 +13,7 @@ public class NMenu extends JFrame {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setLocationRelativeTo(null); // Centre la fenêtre
 
-        JPanel fondPanel = new JPanel() {
+        APanel fondPanel = new APanel() {
             private final Image imageFond = new ImageIcon("src/Images/imageUNO.png").getImage();
 
             @Override
@@ -45,7 +44,7 @@ public class NMenu extends JFrame {
         fondPanel.add(LogoUno, gbc);
 
         // Position du bouton
-        NBouton Bstart = new NBouton();
+        NButton Bstart = new NButton();
         Bstart.setBackground(Color.YELLOW);
         Bstart.setForeground(Color.BLACK);
         Bstart.setText("Start");
@@ -54,17 +53,13 @@ public class NMenu extends JFrame {
         gbc.gridy = 1; // Le bouton en dessous du logo
         gbc.insets = new Insets(20, 0, 0, 0);// Espacement au-dessus du bouton
         Bstart.addActionListener(e -> {
-            try {
-                new Nchoixperso();
-            } catch (IOException e1) {
-                e1.printStackTrace();
-            }
+            new Nchoixperso();
             this.dispose();           // qu'on tu ecrit "e" veut dire "action event" et donc le bloc represente les intruction executer
                                      // et qui remplace la methode " actionPerformed" action listener est une methode abstraire !!!
         });
         fondPanel.add(Bstart, gbc);
 
-        NBouton BQuitter = new NBouton();
+        NButton BQuitter = new NButton();
         BQuitter.setText("Exit");
         BQuitter.setBackground(Color.RED);
         BQuitter.setForeground(Color.BLACK);

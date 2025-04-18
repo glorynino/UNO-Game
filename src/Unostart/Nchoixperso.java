@@ -1,26 +1,26 @@
 package Unostart;
 
-import javax.imageio.ImageIO;
+import javax.swing.*;
 import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-
+import java.io.InputStream;
 import NSwing.*;
 
-public class Nchoixperso extends NFrame {
+public class Nchoixperso extends NFrame implements PlayerChoiceListener {
     private static final Color GREEN_BUTTON = new Color(76, 175, 80);
     private static final Color YELLOW_BUTTON = new Color(255, 193, 7);
     private static final Color RED_BUTTON = new Color(244, 67, 54);
-    public Nchoixperso() throws IOException {
-
-        this.setTitle("Choice the Number of Player");
-        /*this.setExtendedState(JFrame.MAXIMIZED_BOTH); // maximise comme Google ou IntelliJ
+    
+    // Variable to store the selected player count
+    private int selectedPlayerCount = 0;
+    
+    public Nchoixperso() {
+        this.setTitle("Choose the Number of Players");
+        this.setExtendedState(JFrame.MAXIMIZED_BOTH); // maximise comme Google ou IntelliJ
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setLocationRelativeTo(null);*/
-        BufferedImage imageFond = ImageIO.read(new File("src/Images/fondchoixpersonnage.png"));
+        this.setLocationRelativeTo(null);
+
         // Création du fond avec l'image
-        APanel fondPanel = new APanel(imageFond); /*{
+        APanel fondPanel = new APanel() {
             private final Image imageFond = new ImageIcon("src/Images/fondchoixpersonnage.png").getImage();
 
             @Override
@@ -28,18 +28,18 @@ public class Nchoixperso extends NFrame {
                 super.paintComponent(g);
                 g.drawImage(imageFond, 0, 0, getWidth(), getHeight(), this);
             }
-        };*/
+        };
 
-        //fondPanel.setLayout(null);
+        fondPanel.setLayout(null);
         setContentPane(fondPanel);
 
         // Création du JLabel
-        ALabel label = new ALabel("Select the number of players !");
+        ALabel label = new ALabel("Select the number of players!");
         label.setBounds(300, 100, 700, 60);
         // Position et taille élargies
-        //label.setForeground(Color.WHITE);
+        label.setForeground(Color.WHITE);
 
-        /*try {
+        try {
             InputStream is = getClass().getResourceAsStream("/Fonts/Orbitron-VariableFont_wght.ttf");
             if (is != null) {
                 Font luckiestGuyFont = Font.createFont(Font.TRUETYPE_FONT, is).deriveFont(40f);
@@ -51,26 +51,46 @@ public class Nchoixperso extends NFrame {
             }
         } catch (Exception e) {
             e.printStackTrace();
-        }*/
+        }
 
         fondPanel.add(label); // Ajout du JLabel dans le panel fondPanel
+        
         // Création des boutons en forme de losange
         DiamondButton twoPlayersButton = new DiamondButton(GREEN_BUTTON, 2);
         DiamondButton threePlayersButton = new DiamondButton(YELLOW_BUTTON, 3);
-        DiamondButton fourPlayersButton = new DiamondButton(RED_BUTTON, 4); // 4 joueurs au lieu de 5
+        DiamondButton fourPlayersButton = new DiamondButton(RED_BUTTON, 4);
 
-// Positionnement des boutons
+        // Set the listener for each button
+        twoPlayersButton.setPlayerChoiceListener(this);
+        threePlayersButton.setPlayerChoiceListener(this);
+        fourPlayersButton.setPlayerChoiceListener(this);
+
+        // Positionnement des boutons
         twoPlayersButton.setBounds(350, 250, 140, 140);
         threePlayersButton.setBounds(550, 250, 140, 140);
         fourPlayersButton.setBounds(750, 250, 140, 140);
 
-// Ajout des boutons au panel
+        // Ajout des boutons au panel
         fondPanel.add(twoPlayersButton);
         fondPanel.add(threePlayersButton);
         fondPanel.add(fourPlayersButton);
-        //NBouton bouton = new NBouton();
 
         this.setVisible(true);
     }
-
+    
+    // Implement the method from PlayerChoiceListener interface
+    @Override
+    public void onPlayerCountSelected(int playerCount) {
+        this.selectedPlayerCount = playerCount;
+        System.out.println("Player count selected in Nchoixperso: " + playerCount);
+        
+        // Close this window and open the player naming page
+        this.dispose();
+        new ANamingPage(playerCount);
+    }
+    
+    // Method to get the selected player count
+    public int getSelectedPlayerCount() {
+        return selectedPlayerCount;
+    }
 }

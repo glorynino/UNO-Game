@@ -4,9 +4,10 @@ import java.awt.*;
 import java.awt.event.*;
 
 public class DiamondButton extends JButton {
-    private final Color buttonColor;
-    private final int playerCount;
+    private Color buttonColor;
+    private int playerCount;
     private Shape diamondShape;
+    private PlayerChoiceListener listener;
 
     public DiamondButton(Color color, int players) {
         this.buttonColor = color;
@@ -16,9 +17,6 @@ public class DiamondButton extends JButton {
         setBorderPainted(false);
         setFocusPainted(false);
         setOpaque(false);
-
-        // Ajouter une bordure pour voir les limites du bouton (à des fins de débogage)
-        // setBorder(BorderFactory.createLineBorder(Color.RED, 1));
 
         // Ajouter un effet de survol pour mieux visualiser l'interaction
         addMouseListener(new MouseAdapter() {
@@ -34,11 +32,22 @@ public class DiamondButton extends JButton {
         });
 
         // Ajouter le listener pour les actions du bouton
-        addActionListener(e -> {
-            System.out.println("Vous avez sélectionné " + playerCount + " joueurs!");
-            // Ajoutez ici le code pour passer à l'écran suivant ou effectuer une action
-            JOptionPane.showMessageDialog(null, "Vous avez sélectionné " + playerCount + " joueurs!");
+        addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("Vous avez sélectionné " + playerCount + " joueurs!");
+                
+                // Notify the listener about the selected player count
+                if (listener != null) {
+                    listener.onPlayerCountSelected(playerCount);
+                }
+            }
         });
+    }
+
+    // Method to set the listener
+    public void setPlayerChoiceListener(PlayerChoiceListener listener) {
+        this.listener = listener;
     }
 
     @Override

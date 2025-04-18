@@ -1,4 +1,5 @@
 package NSwing;
+import java.awt.FlowLayout;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import javax.swing.*;
@@ -17,6 +18,10 @@ public class APanel extends JPanel {
   
   }
   
+  public APanel(FlowLayout flowLayout) {
+    super(flowLayout);
+  }
+
   @Override
   protected void paintComponent(Graphics g) {
       super.paintComponent(g);

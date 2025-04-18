@@ -7,10 +7,10 @@ import java.io.InputStream;
 
 
 
-public class NBouton extends JButton {
+public class NButton extends JButton {
 
 
-    public NBouton(){
+    public NButton(){
 
         this.setContentAreaFilled(true);
         this.setOpaque(true);
@@ -33,6 +33,10 @@ public class NBouton extends JButton {
         }
 
         this.setToolTipText("Start");
+    }
+
+    public NButton(String string) {
+        super(string);
     }
 
     @Override
