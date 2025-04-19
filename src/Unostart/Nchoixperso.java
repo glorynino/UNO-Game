@@ -110,8 +110,6 @@ public class Nchoixperso extends NFrame implements PlayerChoiceListener {
     @Override
     public void onPlayerCountSelected(int playerCount) {
         this.selectedPlayerCount = playerCount;
-        System.out.println("Player count selected in Nchoixperso: " + playerCount);
-        
         // Close this window and open the player naming page
         this.dispose();
         new ANamingPage(playerCount);

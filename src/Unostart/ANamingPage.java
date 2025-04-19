@@ -1,6 +1,8 @@
 package Unostart;
 import NSwing.*;
 
+import com.project.projetpoo.java.com.project.projetpoo.gui.UNOGUI;
+
 import javax.swing.*;
 import java.awt.*;
 import java.io.InputStream;
@@ -24,6 +26,7 @@ public class ANamingPage extends NFrame {
         
         setupFrame();
         setupComponents();
+
         
         this.setVisible(true);
     }
@@ -182,9 +185,9 @@ public class ANamingPage extends NFrame {
             "Game Starting", 
             JOptionPane.INFORMATION_MESSAGE);
         
-        // Close this window and open the game window
-        // this.dispose();
-        // new GameWindow(playerNames);
+
+         this.dispose();
+         new UNOGUI();
     }
     
     private void returnToPlayerSelection() {

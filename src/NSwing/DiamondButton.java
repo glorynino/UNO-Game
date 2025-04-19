@@ -9,6 +9,18 @@ public class DiamondButton extends JButton {
     private Shape diamondShape;
     private PlayerChoiceListener listener;
 
+    // Tableau de couleurs pour différencier les joueurs
+    private static final Color[] PLAYER_COLORS = {
+            Color.WHITE,       // Joueur 1
+            Color.YELLOW,      // Joueur 2
+            Color.CYAN,        // Joueur 3
+            Color.ORANGE       // Joueur 4
+    };
+
+    public int getPlayerCount() {
+        return playerCount;
+    }
+
     public DiamondButton(Color color, int players) {
         this.buttonColor = color;
         this.playerCount = players;
@@ -23,6 +35,7 @@ public class DiamondButton extends JButton {
             @Override
             public void mouseEntered(MouseEvent e) {
                 setCursor(new Cursor(Cursor.HAND_CURSOR));
+
             }
 
             @Override
@@ -35,8 +48,8 @@ public class DiamondButton extends JButton {
         addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("Vous avez sélectionné " + playerCount + " joueurs!");
-                
+                System.out.println("Player count selected: " + playerCount + " players!");
+
                 // Notify the listener about the selected player count
                 if (listener != null) {
                     listener.onPlayerCountSelected(playerCount);
@@ -88,12 +101,9 @@ public class DiamondButton extends JButton {
         g2d.fill(diamondShape);
 
         // Option: ajouter un contour pour mieux voir le bouton
-         g2d.setColor(Color.WHITE);
-         g2d.setStroke(new BasicStroke(2f));
-         g2d.draw(diamondShape);
-
-        // Dessiner les icônes de personnages en blanc
         g2d.setColor(Color.WHITE);
+        g2d.setStroke(new BasicStroke(2f));
+        g2d.draw(diamondShape);
 
         // Placement des icônes selon le nombre de joueurs
         int width = getWidth();
@@ -102,28 +112,47 @@ public class DiamondButton extends JButton {
         int centerY = height / 2;
 
         if (playerCount == 2) {
-            drawPlayerIcon(g2d, centerX - 20, centerY);
-            drawPlayerIcon(g2d, centerX + 20, centerY);
+            // Joueur 1
+            drawPlayerIcon(g2d, centerX - 20, centerY, PLAYER_COLORS[0]);
+            // Joueur 2
+            drawPlayerIcon(g2d, centerX + 20, centerY, PLAYER_COLORS[1]);
         } else if (playerCount == 3) {
-            drawPlayerIcon(g2d, centerX - 25, centerY);
-            drawPlayerIcon(g2d, centerX + 25, centerY);
-            drawPlayerIcon(g2d, centerX, centerY - 10);
+            // Joueur 1
+            drawPlayerIcon(g2d, centerX - 25, centerY, PLAYER_COLORS[0]);
+            // Joueur 2
+            drawPlayerIcon(g2d, centerX + 25, centerY, PLAYER_COLORS[1]);
+            // Joueur 3
+            drawPlayerIcon(g2d, centerX, centerY - 10, PLAYER_COLORS[2]);
         } else if (playerCount == 4) {
             // Disposition pour 4 joueurs en forme de carré
-            drawPlayerIcon(g2d, centerX - 20, centerY - 15);
-            drawPlayerIcon(g2d, centerX + 20, centerY - 15);
-            drawPlayerIcon(g2d, centerX - 20, centerY + 15);
-            drawPlayerIcon(g2d, centerX + 20, centerY + 15);
+            // Joueur 1
+            drawPlayerIcon(g2d, centerX - 20, centerY - 15, PLAYER_COLORS[0]);
+            // Joueur 2
+            drawPlayerIcon(g2d, centerX + 20, centerY - 15, PLAYER_COLORS[1]);
+            // Joueur 3
+            drawPlayerIcon(g2d, centerX - 20, centerY + 15, PLAYER_COLORS[2]);
+            // Joueur 4
+            drawPlayerIcon(g2d, centerX + 20, centerY + 15, PLAYER_COLORS[3]);
         }
 
         g2d.dispose();
     }
 
-    private void drawPlayerIcon(Graphics2D g2d, int x, int y) {
+    private void drawPlayerIcon(Graphics2D g2d, int x, int y, Color playerColor) {
+        // Sauvegarder la couleur actuelle
+        Color originalColor = g2d.getColor();
+
+        // Définir la couleur du joueur
+        g2d.setColor(playerColor);
+
+        // Dessiner le joueur avec sa couleur spécifique
         // Tête
         g2d.fillOval(x - 8, y - 20, 16, 16);
         // Corps
         g2d.fillRoundRect(x - 7, y - 5, 14, 20, 5, 5);
+
+        // Restaurer la couleur originale
+        g2d.setColor(originalColor);
     }
 
     // Pour la détection des clics sur le losange

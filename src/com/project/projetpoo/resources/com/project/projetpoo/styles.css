@@ -1,0 +1,35 @@
+/* styles.css */
+.root {
+  -fx-background-color: #4CAF50; /* Background color for the entire application */
+}
+
+.label {
+  -fx-text-fill: white; /* Text color for labels */
+  -fx-font-size: 18px; /* Font size for labels */
+}
+
+.button {
+  -fx-background-color: #FFC107; /* Button background color */
+  -fx-text-fill: black; /* Button text color */
+  -fx-font-size: 14px; /* Button font size */
+  -fx-border-radius: 5px; /* Rounded corners for buttons */
+  -fx-padding: 10px; /* Padding inside buttons */
+}
+
+.hbox {
+  -fx-spacing: 10; /* Spacing between elements in HBox */
+  -fx-alignment: center; /* Center alignment for HBox */
+}
+
+.vbox {
+  -fx-spacing: 10; /* Spacing between elements in VBox */
+  -fx-alignment: center; /* Center alignment for VBox */
+}
+
+.dialog-pane {
+  -fx-background-color: #FFFFFF; /* Background color for dialogs */
+}
+
+.dialog-pane .label {
+  -fx-text-fill: #000000; /* Text color for dialog labels */
+}

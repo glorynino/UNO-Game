@@ -2,7 +2,7 @@ package Unostart;
 
 import javax.swing.*;
 import java.awt.*;
-
+import com.formdev.flatlaf.FlatDarkLaf;
 import NSwing.*;
 
 public class NMenu extends NFrame {
@@ -82,8 +82,7 @@ public class NMenu extends NFrame {
     public static void main(String[] args) {
         try {
             // Appliquer le look du système une seule fois
-            UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
-            
+            UIManager.setLookAndFeel(new FlatDarkLaf());
         } catch (Exception e) {
             e.printStackTrace();
         }
