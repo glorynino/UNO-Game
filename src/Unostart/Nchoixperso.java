@@ -15,6 +15,7 @@ public class Nchoixperso extends NFrame implements PlayerChoiceListener {
     
     public Nchoixperso() {
         this.setTitle("Choose the Number of Players");
+        this.setMinimumSize(new Dimension(800, 600)); 
         this.setExtendedState(NFrame.MAXIMIZED_BOTH);
         this.setDefaultCloseOperation(NFrame.EXIT_ON_CLOSE);
         this.setLocationRelativeTo(null);

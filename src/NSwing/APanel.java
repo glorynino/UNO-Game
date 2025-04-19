@@ -1,4 +1,5 @@
 package NSwing;
+import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.Graphics;
 import java.awt.GridBagLayout;
@@ -25,6 +26,10 @@ public class APanel extends JPanel {
 
   public APanel(GridBagLayout gridBagLayout) {
     super(gridBagLayout);
+  }
+
+  public APanel(BorderLayout borderLayout) {
+    super(borderLayout);
   }
 
   @Override

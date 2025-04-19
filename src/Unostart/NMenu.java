@@ -5,12 +5,13 @@ import java.awt.*;
 
 import NSwing.*;
 
-public class NMenu extends JFrame {
+public class NMenu extends NFrame {
 
     public NMenu() {
         this.setTitle("Menu UNO");
-        this.setExtendedState(JFrame.MAXIMIZED_BOTH);
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setExtendedState(NFrame.MAXIMIZED_BOTH);
+        this.setMinimumSize(new Dimension(800, 600)); // Taille minimale de la fenêtre
+        this.setDefaultCloseOperation(NFrame.EXIT_ON_CLOSE);
         this.setLocationRelativeTo(null); // Centre la fenêtre
 
         APanel fondPanel = new APanel() {
