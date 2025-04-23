@@ -35,7 +35,7 @@ public class DiamondButton extends JButton {
         addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("Player count selected: " + playerCount + " palyers!");
+                System.out.println("Vous avez sélectionné " + playerCount + " joueurs!");
                 
                 // Notify the listener about the selected player count
                 if (listener != null) {
