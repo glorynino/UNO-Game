@@ -57,18 +57,18 @@ public class ANamingPage extends NFrame {
         backgroundPanel.setLayout(new GridBagLayout());
         setContentPane(backgroundPanel);
     }
-    
+
     private void setupComponents() {
         // Main content panel
         APanel contentPanel = new APanel();
         contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.Y_AXIS));
         contentPanel.setOpaque(false);
-        
+
         // Title label
         ALabel titleLabel = new ALabel("Enter Player Names");
         titleLabel.setForeground(TEXT_COLOR);
         titleLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-        
+
         // Apply custom font if available
         try {
             InputStream is = getClass().getResourceAsStream("/Fonts/Orbitron-VariableFont_wght.ttf");
@@ -85,80 +85,90 @@ public class ANamingPage extends NFrame {
             titleLabel.setFont(new Font("Arial", Font.BOLD, 40));
             e.printStackTrace();
         }
-        
+
         contentPanel.add(titleLabel);
         contentPanel.add(Box.createRigidArea(new Dimension(0, 40)));
-        
+
         // Create a fixed-width panel for the player name fields
         APanel fieldsContainer = new APanel();
         fieldsContainer.setLayout(new BoxLayout(fieldsContainer, BoxLayout.Y_AXIS));
         fieldsContainer.setOpaque(false);
         fieldsContainer.setAlignmentX(Component.CENTER_ALIGNMENT);
         fieldsContainer.setMaximumSize(new Dimension(600, playerCount * 70));
-        
+
         // Create text fields for each player
         for (int i = 1; i <= playerCount; i++) {
             APanel playerRow = new APanel(new BorderLayout(10, 0));
             playerRow.setOpaque(false);
-            
+
             ALabel playerLabel = new ALabel("Player " + i + ":");
             playerLabel.setForeground(TEXT_COLOR);
             playerLabel.setFont(new Font("Arial", Font.BOLD, 20));
             playerLabel.setPreferredSize(new Dimension(100, 40));
-            
+
             ATextField nameField = new ATextField("Player " + i);
             nameField.setFont(new Font("Arial", Font.PLAIN, 20));
-            
+
+            final int currentIndex = i - 1;
+            nameField.addActionListener(e -> {
+                if (currentIndex + 1 < playerNameFields.size()) {
+                    playerNameFields.get(currentIndex + 1).requestFocusInWindow();
+                } else {
+                    // Optionnel : lancer le jeu si c’est le dernier champ
+                     collectPlayerNames();
+                     startGame();
+                }
+            });
+
             playerRow.add(playerLabel, BorderLayout.WEST);
             playerRow.add(nameField, BorderLayout.CENTER);
-            
+
             playerNameFields.add(nameField);
             fieldsContainer.add(playerRow);
             fieldsContainer.add(Box.createRigidArea(new Dimension(0, 15))); // Space between rows
         }
-        
+
         contentPanel.add(fieldsContainer);
         contentPanel.add(Box.createRigidArea(new Dimension(0, 40)));
-        
+
         // Create a centered panel for buttons
         APanel buttonContainer = new APanel();
         buttonContainer.setLayout(new BoxLayout(buttonContainer, BoxLayout.X_AXIS));
         buttonContainer.setOpaque(false);
         buttonContainer.setAlignmentX(Component.CENTER_ALIGNMENT);
         buttonContainer.setMaximumSize(new Dimension(400, 60));
-        
+
         // Create back button
         NButton backButton = new NButton("Back");
         backButton.setBackground(BACK_BUTTON_COLOR);
         backButton.setForeground(Color.WHITE);
-        //backButton.setFont(new Font("Arial", Font.BOLD, 20));
         backButton.setFocusPainted(false);
-        
+
         backButton.addActionListener(e -> returnToPlayerSelection());
-        
+
         // Create start button
         NButton startButton = new NButton("Start Game");
         startButton.setBackground(BUTTON_COLOR);
         startButton.setForeground(Color.WHITE);
-        //startButton.setFont(new Font("Arial", Font.BOLD, 20));
         startButton.setFocusPainted(false);
-        
+
         startButton.addActionListener(e -> {
             collectPlayerNames();
             startGame();
         });
-        
+
         // Add buttons to button panel with proper spacing
         buttonContainer.add(backButton);
         buttonContainer.add(Box.createHorizontalGlue()); // Space between buttons
         buttonContainer.add(startButton);
-        
+
         contentPanel.add(buttonContainer);
-        
+
         // Add the content panel to the center of the frame
         getContentPane().add(contentPanel);
     }
-    
+
+
     private void collectPlayerNames() {
         playerNames.clear();
         for (ATextField field : playerNameFields) {
