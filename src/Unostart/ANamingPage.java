@@ -1,7 +1,7 @@
 package Unostart;
 import NSwing.*;
 
-import com.project.projetpoo.java.com.project.projetpoo.gui.UNOGUI;
+import projetpoo.gui.UNOGUI;
 
 import javax.swing.*;
 import java.awt.*;
@@ -30,7 +30,11 @@ public class ANamingPage extends NFrame {
         
         this.setVisible(true);
     }
-    
+
+    public int getPlayerCount() {
+        return playerCount;
+    }
+
     private void setupFrame() {
         this.setTitle("Name Your Players");
         this.setExtendedState(NFrame.MAXIMIZED_BOTH);
@@ -197,7 +201,7 @@ public class ANamingPage extends NFrame {
         
 
          this.dispose();
-         new UNOGUI();
+         new UNOGUI(playerCount,getPlayerNames());
     }
     
     private void returnToPlayerSelection() {

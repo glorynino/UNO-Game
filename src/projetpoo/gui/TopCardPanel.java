@@ -1,6 +1,6 @@
-package com.project.projetpoo.java.com.project.projetpoo.gui;
+package projetpoo.gui;
 
-import com.project.projetpoo.java.com.project.projetpoo.*;
+import projetpoo.*;
 
 import javax.swing.*;
 import java.awt.*;

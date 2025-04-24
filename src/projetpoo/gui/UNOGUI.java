@@ -1,11 +1,12 @@
-package com.project.projetpoo.java.com.project.projetpoo.gui;
+package projetpoo.gui;
 
-import com.project.projetpoo.java.com.project.projetpoo.Player;
-import com.project.projetpoo.java.com.project.projetpoo.Card;
-import com.project.projetpoo.java.com.project.projetpoo.*;
+import projetpoo.Player;
+import projetpoo.Card;
+import projetpoo.*;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.List;
 
 
 public class UNOGUI extends JFrame {
@@ -14,14 +15,15 @@ public class UNOGUI extends JFrame {
     private PlayerHandPanel playerHandPanel;
     private JLabel currentPlayerLabel;
     private JTextArea gameLog;
-
-    public UNOGUI() {
+    private List nomplayers;
+    private int numberplayer;
+    public UNOGUI(int numberplayer, List nom) {
         setTitle("UNO Game");
         setSize(1000, 800);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
 
-        game = new Gamegui();
+        game = new Gamegui(numberplayer,nom);
         initializeUI();
     }
 
@@ -173,15 +175,18 @@ public class UNOGUI extends JFrame {
     }
 
     private void resetGame() {
-        game = new Gamegui();
+        game = new Gamegui(numberplayer,nomplayers);
         initializeUI();
         updateGameState();
     }
 
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> {
-            UNOGUI unoGUI = new UNOGUI();
-            unoGUI.setVisible(true);
-        });
+        List<String> nom = List.of("neil","anes");
+        int n = 2;
+        System.out.println("Début de l'application");
+        UNOGUI gui = new UNOGUI(n, nom);  // Crée l'objet UNOGUI
+        gui.setVisible(true);  // Affiche la fenêtre
+        System.out.println("Début de l'application");
     }
+
 }

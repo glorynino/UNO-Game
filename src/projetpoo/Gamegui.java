@@ -1,6 +1,6 @@
-package com.project.projetpoo.java.com.project.projetpoo;
-
+package projetpoo;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 import java.util.Random;
 
@@ -12,15 +12,15 @@ public class Gamegui {
     private boolean isGameOver;
     private boolean isClockwise;
     private final Scanner scanner;
-
-    public Gamegui() {
+     private int numberplayer;
+    public Gamegui(int numberplayer,List nom) {
         this.deck = new Deck();
         this.players = new PlayersList();
         this.cardsUpCard = new ArrayList<>();
         this.isGameOver = false;
         this.isClockwise = true;
         this.scanner = new Scanner(System.in);
-        initializePlayers();
+        initializePlayers(numberplayer,nom);
         // Draw initial top card from deck
         this.topCard = deck.deck.removeFirst();
     }
@@ -56,26 +56,20 @@ public class Gamegui {
 
 
 
-    public void initializePlayers() {
+    public void initializePlayers(int numberplayer, List nom) {
         System.out.println("\n=============== Welcome to UNO! ===============");
-        int numPlayers = 0;
-        while (numPlayers < 2 || numPlayers > 4) {
-            System.out.print("Enter number of players (2-4): ");
-            numPlayers = scanner.nextInt();
-            if (numPlayers < 2 || numPlayers > 4) {
-                System.out.println("Invalid number of players. Please enter a number between 2 and 4.");
+
+        int numPlayers = numberplayer;
+
+
+        for (int i = 0; i < numPlayers; i++) {
+            if (nom.get(i).equals("bot")) {
+                players.addPlayer(new Bot("Bot-" + (i + 1)));
+            } else {
+                players.addPlayer(new Player((String) nom.get(i), false));
             }
         }
 
-        for (int i = 1; i <= numPlayers; i++) {
-            System.out.print("Enter name for Player " + i + " (type 'bot' for AI player): ");
-            String name = scanner.next();
-            if (name.equalsIgnoreCase("bot")) {
-                players.addPlayer(new Bot("Bot-" + i));
-            } else {
-                players.addPlayer(new Player(name, false));
-            }
-        }
 
         // Fixed card distribution
         PlayerNode current = players.getFirstNode();

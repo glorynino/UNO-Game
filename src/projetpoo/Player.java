@@ -1,4 +1,4 @@
-package com.project.projetpoo.java.com.project.projetpoo;
+package projetpoo;
 import java.util.ArrayList;
 
 public class Player {

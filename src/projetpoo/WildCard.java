@@ -1,4 +1,4 @@
-package com.project.projetpoo.java.com.project.projetpoo;
+package projetpoo;
 public class WildCard extends Card {
     public WildCard() {
         super( "none", "wild"); // Pas de couleur par défaut

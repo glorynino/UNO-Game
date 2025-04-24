@@ -1,4 +1,4 @@
-package com.project.projetpoo.java.com.project.projetpoo;
+package projetpoo;
 
 public class Main {
     public static void main(String[] args) {

@@ -1,4 +1,4 @@
-package com.project.projetpoo.java.com.project.projetpoo;
+package projetpoo;
 public class Reverse extends Card{
     public Reverse(String couleur){
         super(couleur, "reverse");

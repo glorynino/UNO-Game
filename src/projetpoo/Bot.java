@@ -1,4 +1,4 @@
-package com.project.projetpoo.java.com.project.projetpoo;
+package projetpoo;
 
 public class Bot extends Player {
   private Card cardsup;
