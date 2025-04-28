@@ -193,15 +193,11 @@ public class ANamingPage extends NFrame {
     
     private void startGame() {
         // Here you would start the actual game with the collected player names
-        AOptionPane.showMessageDialog(this, 
-            "Starting game with " + playerCount + " players:\n" + 
-            String.join(", ", playerNames),
-            "Game Starting", 
-            JOptionPane.INFORMATION_MESSAGE);
-        
 
          this.dispose();
-         new UNOGUI(playerCount,getPlayerNames());
+
+        UNOGUI gui = new UNOGUI(playerCount,getPlayerNames());  // Crée l'objet UNOGUI
+        gui.setVisible(true);  // Affiche la fenêtre
     }
     
     private void returnToPlayerSelection() {

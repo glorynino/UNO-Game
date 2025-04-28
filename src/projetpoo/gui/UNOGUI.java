@@ -23,6 +23,8 @@ public class UNOGUI extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
 
+        this.nomplayers = nom;
+        this.numberplayer = numberplayer;
         game = new Gamegui(numberplayer,nom);
         initializeUI();
     }
@@ -72,6 +74,15 @@ public class UNOGUI extends JFrame {
 
     public void logMessage(String message) {
         gameLog.append(message + "\n");
+    }
+
+    public Point getTopCardPanelCenter() {
+        // Obtenir la position du centre du panel de la carte du dessus
+        Point p = topCardPanel.getLocationOnScreen();
+        return new Point(
+                p.x + topCardPanel.getWidth() / 2,
+                p.y + topCardPanel.getHeight() / 2
+        );
     }
 
     private void handleSpecialCardEffects() {
@@ -175,7 +186,7 @@ public class UNOGUI extends JFrame {
     }
 
     private void resetGame() {
-        game = new Gamegui(numberplayer,nomplayers);
+        game = new Gamegui(numberplayer, nomplayers);
         initializeUI();
         updateGameState();
     }
@@ -188,5 +199,4 @@ public class UNOGUI extends JFrame {
         gui.setVisible(true);  // Affiche la fenêtre
         System.out.println("Début de l'application");
     }
-
 }
