@@ -1,4 +1,5 @@
 package Unostart;
+
 import NSwing.*;
 
 import projetpoo.gui.UNOGUI;
@@ -14,38 +15,34 @@ public class ANamingPage extends NFrame {
     private static final Color TEXT_COLOR = Color.WHITE;
     private static final Color BUTTON_COLOR = new Color(76, 175, 80);
     private static final Color BACK_BUTTON_COLOR = new Color(244, 67, 54); // Red color for back button
-    
-    private int playerCount;
-    private List<ATextField> playerNameFields;
-    private List<String> playerNames;
-    
+
+    private final int playerCount;
+    private final List<ATextField> playerNameFields;
+    private final List<String> playerNames;
+
     public ANamingPage(int playerCount) {
         this.playerCount = playerCount;
         this.playerNameFields = new ArrayList<>();
         this.playerNames = new ArrayList<>();
-        
+
         setupFrame();
         setupComponents();
 
-        
-        this.setVisible(true);
-    }
 
-    public int getPlayerCount() {
-        return playerCount;
+        this.setVisible(true);
     }
 
     private void setupFrame() {
         this.setTitle("Name Your Players");
         this.setExtendedState(NFrame.MAXIMIZED_BOTH);
-        this.setMinimumSize(new Dimension(800, 600)); 
+        this.setMinimumSize(new Dimension(800, 600));
         this.setDefaultCloseOperation(NFrame.EXIT_ON_CLOSE);
         this.setLocationRelativeTo(null);
-        
+
         // Create the background panel
         APanel backgroundPanel = new APanel() {
             private final Image backgroundImage = new ImageIcon("src/Images/fondchoixpersonnage.png").getImage();
-            
+
             @Override
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
@@ -57,7 +54,7 @@ public class ANamingPage extends NFrame {
                 }
             }
         };
-        
+
         backgroundPanel.setLayout(new GridBagLayout());
         setContentPane(backgroundPanel);
     }
@@ -114,13 +111,13 @@ public class ANamingPage extends NFrame {
             nameField.setFont(new Font("Arial", Font.PLAIN, 20));
 
             final int currentIndex = i - 1;
-            nameField.addActionListener(e -> {
+            nameField.addActionListener(_ -> {
                 if (currentIndex + 1 < playerNameFields.size()) {
                     playerNameFields.get(currentIndex + 1).requestFocusInWindow();
                 } else {
                     // Optionnel : lancer le jeu si c’est le dernier champ
-                     collectPlayerNames();
-                     startGame();
+                    collectPlayerNames();
+                    startGame();
                 }
             });
 
@@ -148,7 +145,7 @@ public class ANamingPage extends NFrame {
         backButton.setForeground(Color.WHITE);
         backButton.setFocusPainted(false);
 
-        backButton.addActionListener(e -> returnToPlayerSelection());
+        backButton.addActionListener(_ -> returnToPlayerSelection());
 
         // Create start button
         NButton startButton = new NButton("Start Game");
@@ -156,7 +153,7 @@ public class ANamingPage extends NFrame {
         startButton.setForeground(Color.WHITE);
         startButton.setFocusPainted(false);
 
-        startButton.addActionListener(e -> {
+        startButton.addActionListener(_ -> {
             collectPlayerNames();
             startGame();
         });
@@ -183,29 +180,29 @@ public class ANamingPage extends NFrame {
             }
             playerNames.add(name);
         }
-        
+
         // Print collected names (for testing)
         System.out.println("Player names collected:");
         for (int i = 0; i < playerNames.size(); i++) {
             System.out.println("Player " + (i + 1) + ": " + playerNames.get(i));
         }
     }
-    
+
     private void startGame() {
         // Here you would start the actual game with the collected player names
 
-         this.dispose();
+        this.dispose();
 
-        UNOGUI gui = new UNOGUI(playerCount,getPlayerNames());  // Crée l'objet UNOGUI
+        UNOGUI gui = new UNOGUI(playerCount, getPlayerNames());  // Crée l'objet UNOGUI
         gui.setVisible(true);  // Affiche la fenêtre
     }
-    
+
     private void returnToPlayerSelection() {
         // Close this window and reopen the player selection window
         this.dispose();
         new Nchoixperso();
     }
-    
+
     // Method to get the list of player names
     public List<String> getPlayerNames() {
         return playerNames;

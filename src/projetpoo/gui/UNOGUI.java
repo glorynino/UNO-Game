@@ -15,8 +15,8 @@ public class UNOGUI extends JFrame {
     private PlayerHandPanel playerHandPanel;
     private JLabel currentPlayerLabel;
     private JTextArea gameLog;
-    private List nomplayers;
-    private int numberplayer;
+    private final List nomplayers;
+    private final int numberplayer;
     public UNOGUI(int numberplayer, List nom) {
         setTitle("UNO Game");
         setSize(1000, 800);
