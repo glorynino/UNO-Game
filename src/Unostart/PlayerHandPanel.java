@@ -39,7 +39,7 @@ public class PlayerHandPanel extends APanel {
         cardsPanel.setLayout(null); // Layout null pour positionner manuellement
         cardsPanel.setBackground(Color.WHITE);
 
-        JScrollPane scrollPane = new JScrollPane(cardsPanel);
+        AScrollPane scrollPane = new AScrollPane(cardsPanel);
         scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
         scrollPane.setPreferredSize(new Dimension(800, 150));
@@ -128,7 +128,7 @@ public class PlayerHandPanel extends APanel {
         int targetX = targetLocation.x - cardsPanelLocation.x;
         int targetY = targetLocation.y - cardsPanelLocation.y;
 
-        timer.addActionListener(e -> {
+        timer.addActionListener(_ -> {
             step[0]++;
 
             if (step[0] <= maxSteps) {

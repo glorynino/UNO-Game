@@ -13,13 +13,37 @@ public class TopCardPanel extends APanel {
     private Card currentCard;
 
     public TopCardPanel(Card topCard) {
-        setBackground(Color.LIGHT_GRAY);
-        setPreferredSize(new Dimension(100, 150));
+        // Amélioration du style pour le panel de carte
+        setBackground(new Color(240, 240, 240));
+        setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        setPreferredSize(new Dimension(150, 200));
         setLayout(new BorderLayout());
+
+        // Ajout d'un effet d'ombre à la carte
+        APanel cardPanel = new APanel(new BorderLayout()) {
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                Graphics2D g2d = (Graphics2D) g;
+
+                // Dessiner une ombre légère
+                g2d.setColor(new Color(0, 0, 0, 50));
+                g2d.fillRoundRect(5, 5, getWidth() - 5, getHeight() - 5, 15, 15);
+            }
+        };
+        cardPanel.setBackground(new Color(240, 240, 240));
+        cardPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 
         topCardLabel = new ALabel();
         topCardLabel.setHorizontalAlignment(SwingConstants.CENTER);
-        add(topCardLabel, BorderLayout.CENTER);
+        cardPanel.add(topCardLabel, BorderLayout.CENTER);
+
+        add(cardPanel, BorderLayout.CENTER);
+
+        // Ajout d'un titre pour clarifier que c'est la carte du dessus
+        ALabel titleLabel = new ALabel("", SwingConstants.CENTER);
+        titleLabel.setFont(new Font("Arial", Font.BOLD, 16));
+        add(titleLabel, BorderLayout.NORTH);
 
         setTopCard(topCard);
     }
@@ -148,8 +172,8 @@ public class TopCardPanel extends APanel {
             if (imageUrl != null) {
                 ImageIcon icon = new ImageIcon(imageUrl);
                 Image image = icon.getImage();
-                int width = 80;  // Desired width
-                int height = 120; // Desired height
+                int width = 100;  // Desired width
+                int height = 150; // Desired height
                 Image resizedImage = image.getScaledInstance(width, height, Image.SCALE_SMOOTH);
                 return new ImageIcon(resizedImage);
             } else {

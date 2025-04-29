@@ -2,12 +2,13 @@ package Unostart;
 
 import NSwing.*;
 import projetpoo.Player;
-import projetpoo.Card;
 import projetpoo.*;
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.List;
+import java.util.ArrayList;
+import javax.swing.table.DefaultTableModel;
 
 
 public class UNOGUI extends NFrame {
@@ -15,7 +16,7 @@ public class UNOGUI extends NFrame {
     private TopCardPanel topCardPanel;
     private PlayerHandPanel playerHandPanel;
     private ALabel currentPlayerLabel;
-    private ATextArea gameLog;
+    private final List<LogEntry> gameLogEntries;
     private final List<String> nomplayers;
     private final int numberplayer;
     public UNOGUI(int numberplayer, List<String> nom) {
@@ -26,28 +27,44 @@ public class UNOGUI extends NFrame {
 
         this.nomplayers = nom;
         this.numberplayer = numberplayer;
-        game = new Gamegui(numberplayer,nom);
+        game = new Gamegui(numberplayer, nom);
+        gameLogEntries = new ArrayList<>();
         initializeUI();
     }
 
     private void initializeUI() {
         APanel mainPanel = new APanel(new BorderLayout());
 
-        // Top panel for the top card and current player
+        // Top panel for current player and log history button
         APanel topPanel = new APanel(new BorderLayout());
-        topCardPanel = new TopCardPanel(game.getTopCard());
+        APanel playerInfoPanel = new APanel(new FlowLayout(FlowLayout.CENTER, 20, 10));
+
         currentPlayerLabel = new ALabel("Current Player: " + game.getCurrentPlayer().getNom(), SwingConstants.CENTER);
         currentPlayerLabel.setFont(new Font("Arial", Font.BOLD, 18));
-        topPanel.add(topCardPanel, BorderLayout.CENTER);
-        topPanel.add(currentPlayerLabel, BorderLayout.SOUTH);
+
+        NButton logHistoryButton = new NButton("Log History");
+        logHistoryButton.setFont(new Font("Arial", Font.BOLD, 14));
+        logHistoryButton.addActionListener(_ -> showLogHistory());
+
+        playerInfoPanel.add(currentPlayerLabel);
+        playerInfoPanel.add(logHistoryButton);
+        topPanel.add(playerInfoPanel, BorderLayout.CENTER);
+
         mainPanel.add(topPanel, BorderLayout.NORTH);
 
-        // Center panel for the game log
-        gameLog = new ATextArea();
-        gameLog.setEditable(false);
-        gameLog.setFont(new Font("Monospaced", Font.PLAIN, 14));
-        AScrollPane scrollPane = new AScrollPane(gameLog);
-        mainPanel.add(scrollPane, BorderLayout.CENTER);
+        // Center panel for the top card (moved from top to center)
+        APanel centerPanel = new APanel(new BorderLayout());
+        centerPanel.setBackground(new Color(240, 240, 240));
+
+        // Add some padding around the top card
+        APanel cardContainer = new APanel(new FlowLayout(FlowLayout.CENTER, 0, 50));
+        cardContainer.setBackground(new Color(240, 240, 240));
+
+        topCardPanel = new TopCardPanel(game.getTopCard());
+        cardContainer.add(topCardPanel);
+        centerPanel.add(cardContainer, BorderLayout.CENTER);
+
+        mainPanel.add(centerPanel, BorderLayout.CENTER);
 
         // Bottom panel for the player's hand
         Player currentPlayer = game.getCurrentPlayer();
@@ -74,7 +91,46 @@ public class UNOGUI extends NFrame {
     }
 
     public void logMessage(String message) {
-        gameLog.append(message + "\n");
+        // Add the message to our log entries list
+        String playerName = game.getCurrentPlayer().getNom();
+        gameLogEntries.add(new LogEntry(playerName, message));
+    }
+
+    private void showLogHistory() {
+        // Create a table model for the log
+        DefaultTableModel model = new DefaultTableModel();
+        model.addColumn("Player");
+        model.addColumn("Action");
+
+        // Add log entries to the table
+        for (LogEntry entry : gameLogEntries) {
+            model.addRow(new Object[]{entry.playerName, entry.action});
+        }
+
+        // Create the table
+        JTable logTable = new JTable(model);
+        logTable.setRowHeight(25);
+        logTable.getTableHeader().setFont(new Font("Arial", Font.BOLD, 14));
+        logTable.setFont(new Font("Arial", Font.PLAIN, 14));
+
+        // Create a scroll pane for the table
+        AScrollPane scrollPane = new AScrollPane(logTable);
+        scrollPane.setPreferredSize(new Dimension(600, 400));
+
+        // Show the dialog
+        ADialog logDialog = new ADialog(this, "Game Log History", true);
+        logDialog.setLayout(new BorderLayout());
+        logDialog.add(scrollPane, BorderLayout.CENTER);
+
+        NButton closeButton = new NButton("Close");
+        closeButton.addActionListener(_ -> logDialog.dispose());
+        APanel buttonPanel = new APanel();
+        buttonPanel.add(closeButton);
+        logDialog.add(buttonPanel, BorderLayout.SOUTH);
+
+        logDialog.pack();
+        logDialog.setLocationRelativeTo(this);
+        logDialog.setVisible(true);
     }
 
     public Point getTopCardPanelCenter() {
@@ -84,92 +140,6 @@ public class UNOGUI extends NFrame {
                 p.x + topCardPanel.getWidth() / 2,
                 p.y + topCardPanel.getHeight() / 2
         );
-    }
-
-    private void handleSpecialCardEffects() {
-        Card topCard = game.getTopCard();
-        System.out.println("Handling special card: " + topCard); // Debug
-
-        if (topCard instanceof WildCard) {
-            System.out.println("Wild Card detected"); // Debug
-            handleWildCard();
-        } else if (topCard instanceof WildDrawFourCard) {
-            System.out.println("Wild Draw Four detected"); // Debug
-            handleWildDrawFour();
-        } else if (topCard instanceof Skip) {
-            System.out.println("Skip Card detected"); // Debug
-            handleSkipCard();
-        } else if (topCard instanceof Reverse) {
-            System.out.println("Reverse Card detected"); // Debug
-            handleReverseCard();
-        } else if (topCard instanceof Drawtwo) {
-            System.out.println("Draw Two Card detected"); // Debug
-            handleDrawTwoCard();
-        }
-
-        // Reset the special card effect after handling it
-        game.setTopCard(topCard); // Ensure the top card is updated
-        System.out.println("Special card effect handled"); // Debug
-    }
-
-    private void handleWildCard() {
-        SwingUtilities.invokeLater(() -> {
-            String color = AOptionPane.showInputDialog(this, "Choose a color (red, green, blue, yellow):");
-            if (color != null && (color.equalsIgnoreCase("red") || color.equalsIgnoreCase("green") ||
-                    color.equalsIgnoreCase("blue") || color.equalsIgnoreCase("yellow"))) {
-                game.getTopCard().setCouleur(color);
-                topCardPanel.setTopCard(game.getTopCard());
-                logMessage(game.getCurrentPlayer().getNom() + " chose " + color + " for the Wild Card.");
-                updateGameState(); // Refresh the GUI
-            } else {
-                AOptionPane.showMessageDialog(this, "Invalid color! Please choose again.", "Error", AOptionPane.ERROR_MESSAGE);
-                handleWildCard(); // Retry (this is the only recursive call)
-            }
-        });
-    }
-
-    private void handleWildDrawFour() {
-        SwingUtilities.invokeLater(() -> {
-            String color = AOptionPane.showInputDialog(this, "Choose a color (red, green, blue, yellow):");
-            if (color != null && (color.equalsIgnoreCase("red") || color.equalsIgnoreCase("green") ||
-                    color.equalsIgnoreCase("blue") || color.equalsIgnoreCase("yellow"))) {
-                game.getTopCard().setCouleur(color);
-                topCardPanel.setTopCard(game.getTopCard());
-                Player nextPlayer = game.getNextPlayer();
-                game.getDeck().drawCard(nextPlayer, 4);
-                logMessage(nextPlayer.getNom() + " draws 4 cards!");
-                logMessage(game.getCurrentPlayer().getNom() + " chose " + color + " for the Wild Draw Four Card.");
-                updateGameState(); // Refresh the GUI
-            } else {
-                AOptionPane.showMessageDialog(this, "Invalid color! Please choose again.", "Error", AOptionPane.ERROR_MESSAGE);
-                handleWildDrawFour(); // Retry (this is the only recursive call)
-            }
-        });
-    }
-
-    private void handleSkipCard() {
-        SwingUtilities.invokeLater(() -> {
-            logMessage("Next player is skipped!");
-            game.moveToNextPlayer();
-            updateGameState(); // Refresh the GUI
-        });
-    }
-
-    private void handleReverseCard() {
-        SwingUtilities.invokeLater(() -> {
-            logMessage("Turn order reversed!");
-            game.setClockwise(!game.isClockwise());
-            updateGameState(); // Refresh the GUI
-        });
-    }
-
-    private void handleDrawTwoCard() {
-        SwingUtilities.invokeLater(() -> {
-            Player nextPlayer = game.getNextPlayer();
-            game.getDeck().drawCard(nextPlayer, 2);
-            logMessage(nextPlayer.getNom() + " draws 2 cards!");
-            updateGameState(); // Refresh the GUI
-        });
     }
 
 
@@ -188,8 +158,19 @@ public class UNOGUI extends NFrame {
 
     private void resetGame() {
         game = new Gamegui(numberplayer, nomplayers);
+        gameLogEntries.clear();
         initializeUI();
         updateGameState();
+    }
+
+    private static class LogEntry {
+        String playerName;
+        String action;
+
+        public LogEntry(String playerName, String action) {
+            this.playerName = playerName;
+            this.action = action;
+        }
     }
 
     public static void main(String[] args) {
