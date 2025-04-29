@@ -1,17 +1,18 @@
-package projetpoo.gui;
+package Unostart;
 
 import projetpoo.*;
 
 import javax.swing.*;
+import NSwing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-public class PlayerHandPanel extends JPanel {
+public class PlayerHandPanel extends APanel {
     private Player player;
     private final Gamegui game;
     private final UNOGUI gui;
-    private JPanel cardsPanel;
+    private APanel cardsPanel;
     private static final int CARD_WIDTH = 80;
     private static final int CARD_HEIGHT = 120;
     private static final int CARD_OVERLAP = 30; // Cartes se chevauchant pour économiser de l'espace
@@ -27,7 +28,7 @@ public class PlayerHandPanel extends JPanel {
 
     private void initializeComponents() {
         // Panel pour les cartes avec un layout personnalisé
-        cardsPanel = new JPanel() {
+        cardsPanel = new APanel() {
             @Override
             public Dimension getPreferredSize() {
                 int cardCount = player.getHand().size();
@@ -43,7 +44,7 @@ public class PlayerHandPanel extends JPanel {
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
         scrollPane.setPreferredSize(new Dimension(800, 150));
 
-        JButton drawCardButton = new JButton("Draw Card");
+        NButton drawCardButton = new NButton("Draw Card");
         drawCardButton.setFont(new Font("Arial", Font.BOLD, 14));
         drawCardButton.addActionListener(_ -> {
             game.getDeck().drawCard(player, 1);
@@ -63,7 +64,7 @@ public class PlayerHandPanel extends JPanel {
 
         for (int i = 0; i < cardCount; i++) {
             Card card = player.getHand().get(i);
-            JButton cardButton = createCardButton(card);
+            NButton cardButton = createCardButton(card);
 
             // Positionner chaque carte avec chevauchement
             cardButton.setBounds(xPos, 0, CARD_WIDTH, CARD_HEIGHT);
@@ -76,9 +77,9 @@ public class PlayerHandPanel extends JPanel {
         cardsPanel.repaint();
     }
 
-    private JButton createCardButton(Card card) {
+    private NButton createCardButton(Card card) {
         ImageIcon icon = loadCardImage(card);
-        JButton cardButton = new JButton(icon);
+        NButton cardButton = new NButton(icon);
         cardButton.setBorderPainted(false);
         cardButton.setContentAreaFilled(false);
         cardButton.setFocusPainted(false);
@@ -105,15 +106,15 @@ public class PlayerHandPanel extends JPanel {
                 // Animation de la carte jouée
                 animateCardPlay(cardButton, card);
             } else {
-                JOptionPane.showMessageDialog(PlayerHandPanel.this,
-                        "You cannot play this card!", "Invalid Move", JOptionPane.WARNING_MESSAGE);
+                AOptionPane.showMessageDialog(PlayerHandPanel.this,
+                        "You cannot play this card!", "Invalid Move", AOptionPane.WARNING_MESSAGE);
             }
         });
 
         return cardButton;
     }
 
-    private void animateCardPlay(JButton cardButton, Card card) {
+    private void animateCardPlay(NButton cardButton, Card card) {
         // Créer un Timer pour animer la carte
         Timer timer = new Timer(10, null);
         final int[] step = {0};
@@ -209,20 +210,20 @@ public class PlayerHandPanel extends JPanel {
     }
 
     private void handleWildCard(WildCard card) {
-        String color = JOptionPane.showInputDialog(this, "Choose a color (red, green, blue, yellow):");
+        String color = AOptionPane.showInputDialog(this, "Choose a color (red, green, blue, yellow):");
         if (color != null && (color.equalsIgnoreCase("red") || color.equalsIgnoreCase("green") ||
                 color.equalsIgnoreCase("blue") || color.equalsIgnoreCase("yellow"))) {
             // Update the card's color BEFORE playing it
             card.setCouleur(color); // Update the card being played
             gui.logMessage(player.getNom() + " chose " + color + " for the Wild Card.");
         } else {
-            JOptionPane.showMessageDialog(this, "Invalid color! Please choose again.", "Error", JOptionPane.ERROR_MESSAGE);
+            AOptionPane.showMessageDialog(this, "Invalid color! Please choose again.", "Error", AOptionPane.ERROR_MESSAGE);
             handleWildCard(card); // Retry
         }
     }
 
     private void handleWildDrawFour(WildDrawFourCard card) {
-        String color = JOptionPane.showInputDialog(this, "Choose a color (red, green, blue, yellow):");
+        String color = AOptionPane.showInputDialog(this, "Choose a color (red, green, blue, yellow):");
         if (color != null && (color.equalsIgnoreCase("red") || color.equalsIgnoreCase("green") ||
                 color.equalsIgnoreCase("blue") || color.equalsIgnoreCase("yellow"))) {
             // Update the card's color BEFORE playing it
@@ -232,7 +233,7 @@ public class PlayerHandPanel extends JPanel {
             gui.logMessage(nextPlayer.getNom() + " draws 4 cards!");
             gui.logMessage(player.getNom() + " chose " + color + " for the Wild Draw Four Card.");
         } else {
-            JOptionPane.showMessageDialog(this, "Invalid color! Please choose again.", "Error", JOptionPane.ERROR_MESSAGE);
+            AOptionPane.showMessageDialog(this, "Invalid color! Please choose again.", "Error", JOptionPane.ERROR_MESSAGE);
             handleWildDrawFour(card); // Retry
         }
     }

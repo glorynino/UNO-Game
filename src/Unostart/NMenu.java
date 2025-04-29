@@ -55,7 +55,7 @@ public class NMenu extends NFrame {
         gbc.insets = new Insets(20, 0, 0, 0);// Espacement au-dessus du bouton
         Bstart.addActionListener(e -> {
             new Nchoixperso();
-            this.dispose();           // qu'on tu ecrit "e" veut dire "action event" et donc le bloc represente les intruction executer
+            this.dispose();           // qu'ont, tu écris "e" veut dire "action event" et donc le bloc represente les intruction executer
                                      // et qui remplace la methode " actionPerformed" action listener est une methode abstraire !!!
         });
         fondPanel.add(Bstart, gbc);

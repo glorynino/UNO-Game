@@ -1,5 +1,6 @@
-package projetpoo.gui;
+package Unostart;
 
+import NSwing.*;
 import projetpoo.Player;
 import projetpoo.Card;
 import projetpoo.*;
@@ -9,15 +10,15 @@ import java.awt.*;
 import java.util.List;
 
 
-public class UNOGUI extends JFrame {
+public class UNOGUI extends NFrame {
     private Gamegui game;
     private TopCardPanel topCardPanel;
     private PlayerHandPanel playerHandPanel;
-    private JLabel currentPlayerLabel;
-    private JTextArea gameLog;
-    private final List nomplayers;
+    private ALabel currentPlayerLabel;
+    private ATextArea gameLog;
+    private final List<String> nomplayers;
     private final int numberplayer;
-    public UNOGUI(int numberplayer, List nom) {
+    public UNOGUI(int numberplayer, List<String> nom) {
         setTitle("UNO Game");
         setSize(1000, 800);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -30,22 +31,22 @@ public class UNOGUI extends JFrame {
     }
 
     private void initializeUI() {
-        JPanel mainPanel = new JPanel(new BorderLayout());
+        APanel mainPanel = new APanel(new BorderLayout());
 
         // Top panel for the top card and current player
-        JPanel topPanel = new JPanel(new BorderLayout());
+        APanel topPanel = new APanel(new BorderLayout());
         topCardPanel = new TopCardPanel(game.getTopCard());
-        currentPlayerLabel = new JLabel("Current Player: " + game.getCurrentPlayer().getNom(), SwingConstants.CENTER);
+        currentPlayerLabel = new ALabel("Current Player: " + game.getCurrentPlayer().getNom(), SwingConstants.CENTER);
         currentPlayerLabel.setFont(new Font("Arial", Font.BOLD, 18));
         topPanel.add(topCardPanel, BorderLayout.CENTER);
         topPanel.add(currentPlayerLabel, BorderLayout.SOUTH);
         mainPanel.add(topPanel, BorderLayout.NORTH);
 
         // Center panel for the game log
-        gameLog = new JTextArea();
+        gameLog = new ATextArea();
         gameLog.setEditable(false);
         gameLog.setFont(new Font("Monospaced", Font.PLAIN, 14));
-        JScrollPane scrollPane = new JScrollPane(gameLog);
+        AScrollPane scrollPane = new AScrollPane(gameLog);
         mainPanel.add(scrollPane, BorderLayout.CENTER);
 
         // Bottom panel for the player's hand
@@ -113,7 +114,7 @@ public class UNOGUI extends JFrame {
 
     private void handleWildCard() {
         SwingUtilities.invokeLater(() -> {
-            String color = JOptionPane.showInputDialog(this, "Choose a color (red, green, blue, yellow):");
+            String color = AOptionPane.showInputDialog(this, "Choose a color (red, green, blue, yellow):");
             if (color != null && (color.equalsIgnoreCase("red") || color.equalsIgnoreCase("green") ||
                     color.equalsIgnoreCase("blue") || color.equalsIgnoreCase("yellow"))) {
                 game.getTopCard().setCouleur(color);
@@ -121,7 +122,7 @@ public class UNOGUI extends JFrame {
                 logMessage(game.getCurrentPlayer().getNom() + " chose " + color + " for the Wild Card.");
                 updateGameState(); // Refresh the GUI
             } else {
-                JOptionPane.showMessageDialog(this, "Invalid color! Please choose again.", "Error", JOptionPane.ERROR_MESSAGE);
+                AOptionPane.showMessageDialog(this, "Invalid color! Please choose again.", "Error", AOptionPane.ERROR_MESSAGE);
                 handleWildCard(); // Retry (this is the only recursive call)
             }
         });
@@ -129,7 +130,7 @@ public class UNOGUI extends JFrame {
 
     private void handleWildDrawFour() {
         SwingUtilities.invokeLater(() -> {
-            String color = JOptionPane.showInputDialog(this, "Choose a color (red, green, blue, yellow):");
+            String color = AOptionPane.showInputDialog(this, "Choose a color (red, green, blue, yellow):");
             if (color != null && (color.equalsIgnoreCase("red") || color.equalsIgnoreCase("green") ||
                     color.equalsIgnoreCase("blue") || color.equalsIgnoreCase("yellow"))) {
                 game.getTopCard().setCouleur(color);
@@ -140,7 +141,7 @@ public class UNOGUI extends JFrame {
                 logMessage(game.getCurrentPlayer().getNom() + " chose " + color + " for the Wild Draw Four Card.");
                 updateGameState(); // Refresh the GUI
             } else {
-                JOptionPane.showMessageDialog(this, "Invalid color! Please choose again.", "Error", JOptionPane.ERROR_MESSAGE);
+                AOptionPane.showMessageDialog(this, "Invalid color! Please choose again.", "Error", AOptionPane.ERROR_MESSAGE);
                 handleWildDrawFour(); // Retry (this is the only recursive call)
             }
         });
@@ -176,8 +177,8 @@ public class UNOGUI extends JFrame {
         if (game.isGameOver()) {
             Player winner = game.getPreviousPlayer();
             logMessage(winner.getNom() + " wins the game! Congratulations!");
-            int choice = JOptionPane.showConfirmDialog(this, winner.getNom() + " wins! Do you want to play again?", "Game Over", JOptionPane.YES_NO_OPTION);
-            if (choice == JOptionPane.YES_OPTION) {
+            int choice = AOptionPane.showConfirmDialog(this, winner.getNom() + " wins! Do you want to play again?", "Game Over", AOptionPane.YES_NO_OPTION);
+            if (choice == AOptionPane.YES_OPTION) {
                 resetGame();
             } else {
                 System.exit(0);

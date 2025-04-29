@@ -53,6 +53,10 @@ public class NButton extends JButton {
         }
     }
 
+    public NButton(ImageIcon icon) {
+        super(icon);
+    }
+
     @Override
     public void setBorder(Border border) {
         super.setBorder(border);

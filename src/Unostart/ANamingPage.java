@@ -2,8 +2,6 @@ package Unostart;
 
 import NSwing.*;
 
-import projetpoo.gui.UNOGUI;
-
 import javax.swing.*;
 import java.awt.*;
 import java.io.InputStream;

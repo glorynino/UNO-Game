@@ -1,13 +1,15 @@
-package projetpoo.gui;
+package Unostart;
 
+import NSwing.ALabel;
+import NSwing.APanel;
 import projetpoo.*;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-public class TopCardPanel extends JPanel {
-    private final JLabel topCardLabel;
+public class TopCardPanel extends APanel {
+    private final ALabel topCardLabel;
     private Card currentCard;
 
     public TopCardPanel(Card topCard) {
@@ -15,7 +17,7 @@ public class TopCardPanel extends JPanel {
         setPreferredSize(new Dimension(100, 150));
         setLayout(new BorderLayout());
 
-        topCardLabel = new JLabel();
+        topCardLabel = new ALabel();
         topCardLabel.setHorizontalAlignment(SwingConstants.CENTER);
         add(topCardLabel, BorderLayout.CENTER);
 
