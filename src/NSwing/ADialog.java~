@@ -1,0 +1,13 @@
+package NSwing;
+
+import Unostart.UNOGUI;
+
+import javax.swing.*;
+import java.awt.*;
+
+public class ADialog extends JDialog {
+    public ADialog(Frame owner, String gameLogHistory, boolean b) {
+        super(owner
+                , gameLogHistory, b);
+    }
+}

@@ -24,7 +24,6 @@ public class UNOGUI extends NFrame {
         setSize(1000, 800);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
-        this.setExtendedState(NFrame.MAXIMIZED_BOTH);
 
         this.nomplayers = nom;
         this.numberplayer = numberplayer;
