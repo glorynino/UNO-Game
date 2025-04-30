@@ -3,7 +3,7 @@ package Unostart;
 import projetpoo.*;
 
 import javax.swing.*;
-import NSwing.*;
+import UnoSwing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -57,8 +57,8 @@ public class PlayerHandPanel extends APanel {
         playerNameLabel.setHorizontalAlignment(SwingConstants.CENTER);
 
         if (isCurrentPlayer) {
-            playerNameLabel.setForeground(new Color(0, 100, 0));
-            setBorder(BorderFactory.createLineBorder(new Color(0, 100, 0), 3));
+            playerNameLabel.setForeground(new Color(136, 8, 8));
+            setBorder(BorderFactory.createLineBorder(new Color(136, 8, 8), 3));
         } else {
             playerNameLabel.setForeground(Color.BLACK);
         }
@@ -148,8 +148,8 @@ public class PlayerHandPanel extends APanel {
         playerNameLabel.setText(displayText);
 
         if (isCurrentPlayer) {
-            playerNameLabel.setForeground(new Color(0, 100, 0));
-            setBorder(BorderFactory.createLineBorder(new Color(0, 100, 0), 3));
+            playerNameLabel.setForeground(new Color(244, 244, 244));
+            setBorder(BorderFactory.createLineBorder(new Color(136, 8, 8), 3));
         } else {
             playerNameLabel.setForeground(Color.BLACK);
             setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));

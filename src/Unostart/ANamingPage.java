@@ -1,6 +1,6 @@
 package Unostart;
 
-import NSwing.*;
+import UnoSwing.*;
 
 import javax.swing.*;
 import java.awt.*;

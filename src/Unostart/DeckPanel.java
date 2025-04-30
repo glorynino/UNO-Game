@@ -2,7 +2,7 @@ package Unostart;
 
 import projetpoo.*;
 import javax.swing.*;
-import NSwing.*;
+import UnoSwing.*;
 import java.awt.*;
 
 public class DeckPanel extends APanel {
@@ -15,7 +15,7 @@ public class DeckPanel extends APanel {
 
         // Set up panel properties
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-        setBackground(new Color(0, 100, 0));
+        setBackground(new Color(136, 8, 8));
 
         // Create card image panel
         APanel imagePanel = new APanel() {
@@ -37,7 +37,7 @@ public class DeckPanel extends APanel {
 
         imagePanel.setPreferredSize(new Dimension(120, 180));
         imagePanel.setMaximumSize(new Dimension(120, 180));
-        imagePanel.setBackground(new Color(0, 100, 0));
+        imagePanel.setBackground(new Color(136, 8, 8));
 
         // Load UNO background image
         try {
@@ -62,7 +62,7 @@ public class DeckPanel extends APanel {
         cardsLabel.setForeground(Color.WHITE);
         cardsLabel.setFont(new Font("Arial", Font.BOLD, 14));
         cardsLabel.setOpaque(true);
-        cardsLabel.setBackground(new Color(0, 70, 0));
+        cardsLabel.setBackground(new Color(136, 8, 8));
         cardsLabel.setPreferredSize(new Dimension(120, 25));
         cardsLabel.setMaximumSize(new Dimension(120, 25));
 

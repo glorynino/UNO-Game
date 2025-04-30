@@ -1,7 +1,7 @@
 
 package Unostart;
 
-import NSwing.*;
+import UnoSwing.*;
 import projetpoo.Player;
 import projetpoo.*;
 
@@ -56,15 +56,15 @@ public class UNOGUI extends NFrame {
 
         APanel gameBoardPanel = new APanel();
         gameBoardPanel.setLayout(new BorderLayout());
-        gameBoardPanel.setBackground(new Color(0, 100, 0));
+        gameBoardPanel.setBackground(new Color(136, 8, 8));
 
         // Center game area with GridBagLayout for true centering
         APanel centerGameArea = new APanel(new GridBagLayout());
-        centerGameArea.setBackground(new Color(0, 100, 0));
+        centerGameArea.setBackground(new Color(136, 8, 8));
 
         // Create a panel specifically for the cards
         APanel cardsPanel = new APanel(new FlowLayout(FlowLayout.CENTER, 30, 20));
-        cardsPanel.setBackground(new Color(0, 100, 0));
+        cardsPanel.setBackground(new Color(136, 8, 8));
 
         topCardPanel = new TopCardPanel(game.getTopCard());
         deckPanel = new DeckPanel(game.getDeck());
@@ -77,7 +77,7 @@ public class UNOGUI extends NFrame {
 
         // Add log history button below the cards
         APanel buttonPanel = new APanel(new FlowLayout(FlowLayout.CENTER));
-        buttonPanel.setBackground(new Color(0, 100, 0));
+        buttonPanel.setBackground(new Color(136, 8, 8));
 
         NButton logHistoryButton = new NButton("Log History");
         logHistoryButton.setFont(new Font("Arial", Font.BOLD, 14));
@@ -277,14 +277,6 @@ public class UNOGUI extends NFrame {
         }
     }
 
-    public static void main(String[] args) {
-        List<String> nom = List.of("neil","anes");
-        int n = 2;
-        System.out.println("Début de l'application");
-        UNOGUI gui = new UNOGUI(n, nom);
-        gui.setVisible(true);
-        System.out.println("Début de l'application");
-    }
 
     public void updateDeckCardCount() {
         deckPanel.updateCardCount();

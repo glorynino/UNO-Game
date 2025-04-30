@@ -3,7 +3,7 @@ package Unostart;
 import javax.swing.*;
 import java.awt.*;
 import java.io.InputStream;
-import NSwing.*;
+import UnoSwing.*;
 
 public class Nchoixperso extends NFrame implements PlayerChoiceListener {
     private static final Color GREEN_BUTTON = new Color(76, 175, 80);
