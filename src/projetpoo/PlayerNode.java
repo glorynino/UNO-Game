@@ -10,4 +10,12 @@ public class PlayerNode {
     this.next = null;
     this.previous = null;
   }
+
+  public PlayerNode getNext() {
+    return next;
+  }
+
+  public Player getPlayer() {
+    return player;
+  }
 }

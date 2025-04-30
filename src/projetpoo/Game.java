@@ -55,9 +55,9 @@ public class Game {
         // Fixed card distribution
         PlayerNode current = players.getFirstNode();
         for (int i = 0; i < numPlayers; i++) {
-            Player player = current.player;
+            Player player = current.getPlayer();
             deck.drawCard(player, 7);
-            current = current.next;
+            current = current.getNext();
         }
     }
 

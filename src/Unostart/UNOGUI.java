@@ -1,3 +1,4 @@
+
 package Unostart;
 
 import NSwing.*;
@@ -10,15 +11,16 @@ import java.util.List;
 import java.util.ArrayList;
 import javax.swing.table.DefaultTableModel;
 
-
 public class UNOGUI extends NFrame {
     private Gamegui game;
-    private TopCardPanel topCardPanel;
-    private PlayerHandPanel playerHandPanel;
+    TopCardPanel topCardPanel;
+    private DeckPanel deckPanel;
+    private List<PlayerHandPanel> playerHandPanels;
     private ALabel currentPlayerLabel;
     private final List<LogEntry> gameLogEntries;
     private final List<String> nomplayers;
     private final int numberplayer;
+
     public UNOGUI(int numberplayer, List<String> nom) {
         setTitle("UNO Game");
         setSize(1000, 800);
@@ -30,95 +32,163 @@ public class UNOGUI extends NFrame {
         this.numberplayer = numberplayer;
         game = new Gamegui(numberplayer, nom);
         gameLogEntries = new ArrayList<>();
+        playerHandPanels = new ArrayList<>();
         initializeUI();
     }
 
     private void initializeUI() {
         APanel mainPanel = new APanel(new BorderLayout());
+        mainPanel.setBackground(new Color(240, 240, 240));
 
-        // Top panel for current player and log history button
         APanel topPanel = new APanel(new BorderLayout());
         APanel playerInfoPanel = new APanel(new FlowLayout(FlowLayout.CENTER, 20, 10));
 
         currentPlayerLabel = new ALabel("Current Player: " + game.getCurrentPlayer().getNom(), SwingConstants.CENTER);
         currentPlayerLabel.setFont(new Font("Arial", Font.BOLD, 18));
+        playerInfoPanel.add(currentPlayerLabel);
+
+        topPanel.add(playerInfoPanel, BorderLayout.CENTER);
+        mainPanel.add(topPanel, BorderLayout.NORTH);
+
+        APanel centerPanel = new APanel();
+        centerPanel.setLayout(new BorderLayout());
+        centerPanel.setBackground(new Color(240, 240, 240));
+
+        APanel gameBoardPanel = new APanel();
+        gameBoardPanel.setLayout(new BorderLayout());
+        gameBoardPanel.setBackground(new Color(0, 100, 0));
+
+        APanel centerGameArea = new APanel();
+        centerGameArea.setLayout(new FlowLayout(FlowLayout.CENTER, 30, 20));
+        centerGameArea.setBackground(new Color(0, 100, 0));
+
+        topCardPanel = new TopCardPanel(game.getTopCard());
+        deckPanel = new DeckPanel(game.getDeck());
 
         NButton logHistoryButton = new NButton("Log History");
         logHistoryButton.setFont(new Font("Arial", Font.BOLD, 14));
         logHistoryButton.addActionListener(_ -> showLogHistory());
 
-        playerInfoPanel.add(currentPlayerLabel);
-        playerInfoPanel.add(logHistoryButton);
-        topPanel.add(playerInfoPanel, BorderLayout.CENTER);
+        centerGameArea.add(topCardPanel);
+        centerGameArea.add(deckPanel);
+        centerGameArea.add(logHistoryButton);
 
-        mainPanel.add(topPanel, BorderLayout.NORTH);
+        gameBoardPanel.add(centerGameArea, BorderLayout.CENTER);
 
-        // Center panel for the top card (moved from top to center)
-        APanel centerPanel = new APanel(new BorderLayout());
-        centerPanel.setBackground(new Color(240, 240, 240));
+        createPlayerHandPanels();
 
-        // Add some padding around the top card
-        APanel cardContainer = new APanel(new FlowLayout(FlowLayout.CENTER, 0, 50));
-        cardContainer.setBackground(new Color(240, 240, 240));
+        switch (numberplayer) {
+            case 2:
+                gameBoardPanel.add(playerHandPanels.get(0), BorderLayout.SOUTH);
+                gameBoardPanel.add(playerHandPanels.get(1), BorderLayout.NORTH);
+                break;
+            case 3:
+                gameBoardPanel.add(playerHandPanels.get(0), BorderLayout.SOUTH);
+                gameBoardPanel.add(playerHandPanels.get(1), BorderLayout.WEST);
 
-        topCardPanel = new TopCardPanel(game.getTopCard());
-        cardContainer.add(topCardPanel);
-        centerPanel.add(cardContainer, BorderLayout.CENTER);
+                // Create a panel to hold the vertical player hand
+                APanel verticalWestPanel = new APanel(new BorderLayout());
+                verticalWestPanel.add(playerHandPanels.get(1), BorderLayout.NORTH); // Or CENTER, adjust as needed
+                gameBoardPanel.add(verticalWestPanel, BorderLayout.WEST);
 
+
+                gameBoardPanel.add(playerHandPanels.get(2), BorderLayout.EAST);
+
+                // Create a panel to hold the vertical player hand
+                APanel verticalEastPanel = new APanel(new BorderLayout());
+                verticalEastPanel.add(playerHandPanels.get(2), BorderLayout.NORTH); // Or CENTER, adjust as needed
+                gameBoardPanel.add(verticalEastPanel, BorderLayout.EAST);
+                break;
+            case 4:
+                gameBoardPanel.add(playerHandPanels.get(0), BorderLayout.SOUTH);
+
+                // Create a panel to hold the vertical player hand
+                APanel verticalWestPanel4 = new APanel(new BorderLayout());
+                verticalWestPanel4.add(playerHandPanels.get(1), BorderLayout.NORTH); // Or CENTER, adjust as needed
+                gameBoardPanel.add(verticalWestPanel4, BorderLayout.WEST);
+
+                gameBoardPanel.add(playerHandPanels.get(2), BorderLayout.NORTH);
+
+                // Create a panel to hold the vertical player hand
+                APanel verticalEastPanel4 = new APanel(new BorderLayout());
+                verticalEastPanel4.add(playerHandPanels.get(3), BorderLayout.NORTH); // Or CENTER, adjust as needed
+                gameBoardPanel.add(verticalEastPanel4, BorderLayout.EAST);
+                break;
+        }
+
+        centerPanel.add(gameBoardPanel, BorderLayout.CENTER);
         mainPanel.add(centerPanel, BorderLayout.CENTER);
-
-        // Bottom panel for the player's hand
-        Player currentPlayer = game.getCurrentPlayer();
-        playerHandPanel = new PlayerHandPanel(currentPlayer, game, this);
-        mainPanel.add(playerHandPanel, BorderLayout.SOUTH);
 
         add(mainPanel);
     }
 
-    public void updateGameState() {
+    private void createPlayerHandPanels() {
+        playerHandPanels.clear();
 
-        // Update the top card display
+        PlayerNode currentNode = game.getPlayersList().getFirstNode();
+        if (currentNode != null) {
+            int i = 0;
+            do {
+                Player player = currentNode.getPlayer();
+                boolean isCurrentPlayer = player == game.getCurrentPlayer();
+                // Determine if the player hand should be displayed vertically
+                boolean isVertical = (numberplayer > 2) && (i % 2 != 0); // Vertical for left/right players
+
+                PlayerHandPanel handPanel = new PlayerHandPanel(player, game, this, isCurrentPlayer, isVertical);
+                playerHandPanels.add(handPanel);
+
+                currentNode = currentNode.getNext();
+                i++;
+            } while (currentNode != game.getPlayersList().getFirstNode());
+        }
+    }
+
+    public void updateGameState() {
         topCardPanel.setTopCard(game.getTopCard());
 
-        // Update the current player label
         currentPlayerLabel.setText("Current Player: " + game.getCurrentPlayer().getNom());
 
-        // Update the player's hand
-        playerHandPanel.setPlayer(game.getCurrentPlayer());
-        playerHandPanel.updateHand();
+        PlayerNode currentNode = game.getPlayersList().getFirstNode();
+        if (currentNode != null) {
+            int i = 0;
+            do {
+                Player player = currentNode.getPlayer();
+                boolean isCurrentPlayer = player == game.getCurrentPlayer();
 
-        // Check if the game is over
+                playerHandPanels.get(i).setPlayer(player);
+                playerHandPanels.get(i).setIsCurrentPlayer(isCurrentPlayer);
+                playerHandPanels.get(i).updateHand();
+
+                currentNode = currentNode.getNext();
+                i++;
+            } while (currentNode != game.getPlayersList().getFirstNode());
+        }
+
         checkGameOver();
     }
 
     public void logMessage(String message) {
-        // Add the message to our log entries list
         String playerName = game.getCurrentPlayer().getNom();
         gameLogEntries.add(new LogEntry(playerName, message));
     }
 
     private void showLogHistory() {
-        // Create a table model for the log
         DefaultTableModel model = new DefaultTableModel();
         model.addColumn("Player");
         model.addColumn("Action");
 
-        // Add log entries to the table
         for (LogEntry entry : gameLogEntries) {
             model.addRow(new Object[]{entry.playerName, entry.action});
         }
 
-        // Create the table
         JTable logTable = new JTable(model);
         logTable.setRowHeight(25);
         logTable.getTableHeader().setFont(new Font("Arial", Font.BOLD, 14));
         logTable.setFont(new Font("Arial", Font.PLAIN, 14));
 
-        // Create a scroll pane for the table
         AScrollPane scrollPane = new AScrollPane(logTable);
         scrollPane.setPreferredSize(new Dimension(600, 400));
 
-        // Show the dialog
         ADialog logDialog = new ADialog(this, "Game Log History", true);
         logDialog.setLayout(new BorderLayout());
         logDialog.add(scrollPane, BorderLayout.CENTER);
@@ -135,14 +205,12 @@ public class UNOGUI extends NFrame {
     }
 
     public Point getTopCardPanelCenter() {
-        // Obtenir la position du centre du panel de la carte du dessus
         Point p = topCardPanel.getLocationOnScreen();
         return new Point(
                 p.x + topCardPanel.getWidth() / 2,
                 p.y + topCardPanel.getHeight() / 2
         );
     }
-
 
     public void checkGameOver() {
         if (game.isGameOver()) {
@@ -160,6 +228,7 @@ public class UNOGUI extends NFrame {
     private void resetGame() {
         game = new Gamegui(numberplayer, nomplayers);
         gameLogEntries.clear();
+        playerHandPanels.clear();
         initializeUI();
         updateGameState();
     }
@@ -178,8 +247,12 @@ public class UNOGUI extends NFrame {
         List<String> nom = List.of("neil","anes");
         int n = 2;
         System.out.println("Début de l'application");
-        UNOGUI gui = new UNOGUI(n, nom);  // Crée l'objet UNOGUI
-        gui.setVisible(true);  // Affiche la fenêtre
+        UNOGUI gui = new UNOGUI(n, nom);
+        gui.setVisible(true);
         System.out.println("Début de l'application");
+    }
+
+    public void updateDeckCardCount() {
+        deckPanel.updateCardCount();
     }
 }

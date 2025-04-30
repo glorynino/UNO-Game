@@ -63,4 +63,8 @@ public class Deck {
         createDeck();
         shuffleDeck();
     }
+
+    public int size() {
+        return deck.size();
+    }
 }

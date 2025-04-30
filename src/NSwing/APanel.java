@@ -1,8 +1,5 @@
 package NSwing;
-import java.awt.BorderLayout;
-import java.awt.FlowLayout;
-import java.awt.Graphics;
-import java.awt.GridBagLayout;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import javax.swing.*;
 
@@ -32,7 +29,11 @@ public class APanel extends JPanel {
     super(borderLayout);
   }
 
-  @Override
+  public APanel(GridLayout gridLayout) {
+    super(gridLayout);
+  }
+
+    @Override
   protected void paintComponent(Graphics g) {
       super.paintComponent(g);
       g.drawImage(imageFond, 0, 0, getWidth(), getHeight(), this);
