@@ -298,50 +298,76 @@ public class PlayerHandPanel extends APanel {
     }
 
     private void handleWildDrawFour(WildDrawFourCard card) {
+        Player nextPlayer = game.getNextPlayer();
+        game.getDeck().drawCard(nextPlayer, 4);
+        gui.logMessage(nextPlayer.getNom() + " draws 4 cards!");
         showColorChoiceDialog(card);
     }
 
     private void showColorChoiceDialog(Card card) {
         final ADialog colorDialog = new ADialog(gui, "Choose a color", true);
-        APanel contentPanel = new APanel(new GridLayout(2, 4)); // Adjusted grid layout
-        contentPanel.setBackground(Color.GRAY); // Set background color
-        Dimension dialogSize = new Dimension(800, 800);
+        APanel contentPanel = new APanel(new GridLayout(2, 2));
+        contentPanel.setBackground(new Color(50, 50, 50));
+        contentPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+
+        Dimension dialogSize = new Dimension(400, 400);
         contentPanel.setPreferredSize(dialogSize);
 
         final String[] colors = {"red", "green", "blue", "yellow"};
-        final ALabel[] colorLabels = new ALabel[4];
-        final ImageIcon[] colorIcons = loadColorIcons();
-        final ImageIcon emptyIcon = loadEmptyColorIcon();
 
-        for (int i = 0; i < colors.length; i++) {
-            final String color = colors[i];
-            final ALabel colorLabel = new ALabel();
-            colorLabels[i] = colorLabel;
-            colorLabel.setIcon(resizeIcon(colorIcons[i], gui.topCardPanel.getPreferredSize()));
-            colorLabel.setText(color); // Add color name as text
-            colorLabel.setHorizontalAlignment(SwingConstants.CENTER); // Center text
-            colorLabel.setForeground(Color.WHITE); // Set text color to white
+        for (final String color : colors) {
+            APanel colorButtonPanel = new APanel(new BorderLayout());
+            colorButtonPanel.setBackground(new Color(50, 50, 50));
+            colorButtonPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
-            colorLabel.addMouseListener(new MouseAdapter() {
-                public void mouseClicked(MouseEvent evt) {
-                    card.setCouleur(color);
-                    String cardName = (card instanceof WildCard) ? "Wild Card" : "Wild Draw Four Card";
-                    gui.logMessage(player.getNom() + " chose " + color + " for the " + cardName + ".");
-                    gui.topCardPanel.setTopCardColorImage(color); // Update top card image
-                    for (ALabel label : colorLabels) {
-                        label.setIcon(resizeIcon(emptyIcon, gui.topCardPanel.getPreferredSize()));
-                        label.setText(""); // Clear color names
-                    }
-                    colorDialog.dispose();
-                    gui.updateGameState();
+            // Create the color button with the corresponding color image
+            String imagePath = "images/" + color + "_empty.png";
+            ImageIcon colorIcon = null;
+
+            try {
+                java.net.URL imageUrl = getClass().getClassLoader().getResource(imagePath);
+                if (imageUrl != null) {
+                    ImageIcon originalIcon = new ImageIcon(imageUrl);
+                    Image image = originalIcon.getImage();
+                    Image resizedImage = image.getScaledInstance(100, 150, Image.SCALE_SMOOTH);
+                    colorIcon = new ImageIcon(resizedImage);
                 }
+            } catch (Exception e) {
+                System.err.println("Error loading color image: " + imagePath);
+                e.printStackTrace();
+            }
+
+            NButton colorButton = new NButton();
+            colorButton.setIcon(colorIcon);
+            colorButton.setText(color.toUpperCase());
+            colorButton.setFont(new Font("Arial", Font.BOLD, 16));
+            colorButton.setHorizontalTextPosition(SwingConstants.CENTER);
+            colorButton.setVerticalTextPosition(SwingConstants.BOTTOM);
+            colorButton.setFocusPainted(false);
+            colorButton.setContentAreaFilled(false);
+            colorButton.setBorderPainted(false);
+
+            // Set the foreground color that contrasts well with the button color
+            colorButton.setForeground(Color.WHITE);
+
+            colorButton.addActionListener(e -> {
+                card.setCouleur(color);
+                String cardName = (card instanceof WildDrawFourCard) ? "Wild Draw Four Card" : "Wild Card";
+                gui.logMessage(player.getNom() + " chose " + color + " for the " + cardName + ".");
+
+                // Key fix: Update the top card with the selected color
+                gui.topCardPanel.setTopCardColorImage(color);
+
+                colorDialog.dispose();
+                gui.updateGameState();
             });
-            contentPanel.add(colorLabel);
+
+            colorButtonPanel.add(colorButton, BorderLayout.CENTER);
+            contentPanel.add(colorButtonPanel);
         }
 
         colorDialog.setLayout(new BorderLayout());
         colorDialog.add(contentPanel, BorderLayout.CENTER);
-        colorDialog.setPreferredSize(dialogSize);
         colorDialog.pack();
         colorDialog.setLocationRelativeTo(gui);
         colorDialog.setVisible(true);

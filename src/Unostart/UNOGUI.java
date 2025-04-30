@@ -84,19 +84,15 @@ public class UNOGUI extends NFrame {
                 break;
             case 3:
                 gameBoardPanel.add(playerHandPanels.get(0), BorderLayout.SOUTH);
-                gameBoardPanel.add(playerHandPanels.get(1), BorderLayout.WEST);
 
-                // Create a panel to hold the vertical player hand
+                // Panel for the vertical player hand on the West side
                 APanel verticalWestPanel = new APanel(new BorderLayout());
-                verticalWestPanel.add(playerHandPanels.get(1), BorderLayout.NORTH); // Or CENTER, adjust as needed
+                verticalWestPanel.add(playerHandPanels.get(1), BorderLayout.CENTER);
                 gameBoardPanel.add(verticalWestPanel, BorderLayout.WEST);
 
-
-                gameBoardPanel.add(playerHandPanels.get(2), BorderLayout.EAST);
-
-                // Create a panel to hold the vertical player hand
+                // Panel for the vertical player hand on the East side
                 APanel verticalEastPanel = new APanel(new BorderLayout());
-                verticalEastPanel.add(playerHandPanels.get(2), BorderLayout.NORTH); // Or CENTER, adjust as needed
+                verticalEastPanel.add(playerHandPanels.get(2), BorderLayout.CENTER);
                 gameBoardPanel.add(verticalEastPanel, BorderLayout.EAST);
                 break;
             case 4:
@@ -131,8 +127,16 @@ public class UNOGUI extends NFrame {
             do {
                 Player player = currentNode.getPlayer();
                 boolean isCurrentPlayer = player == game.getCurrentPlayer();
+
                 // Determine if the player hand should be displayed vertically
-                boolean isVertical = (numberplayer > 2) && (i % 2 != 0); // Vertical for left/right players
+                boolean isVertical = false;
+                if (numberplayer == 3) {
+                    // For 3 players, make positions 1 and 2 vertical (side panels)
+                    isVertical = (i == 1 || i == 2);
+                } else if (numberplayer == 4) {
+                    // For 4 players, make positions 1 and 3 vertical (side panels)
+                    isVertical = (i == 1 || i == 3);
+                }
 
                 PlayerHandPanel handPanel = new PlayerHandPanel(player, game, this, isCurrentPlayer, isVertical);
                 playerHandPanels.add(handPanel);

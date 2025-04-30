@@ -8,22 +8,43 @@ import java.awt.*;
 public class DeckPanel extends APanel {
     private final Deck deck;
     private Image backgroundImage;
-    private final ALabel cardsLabel; // Declare cardsLabel as a class member
+    private final ALabel cardsLabel;
 
     public DeckPanel(Deck deck) {
         this.deck = deck;
-        setPreferredSize(new Dimension(120, 180));
+
+        // Set up panel properties
+        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         setBackground(new Color(0, 100, 0));
-        setLayout(new BorderLayout());
+
+        // Create card image panel
+        APanel imagePanel = new APanel() {
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                // Draw the UNO background image
+                if (backgroundImage != null) {
+                    g.drawImage(backgroundImage, 0, 0, getWidth(), getHeight(), this);
+                } else {
+                    // Fallback if image is not found
+                    g.setColor(new Color(220, 0, 0));
+                    g.fillRect(0, 0, getWidth(), getHeight());
+                    g.setColor(Color.WHITE);
+                    g.drawString("UNO", getWidth()/2 - 15, getHeight()/2);
+                }
+            }
+        };
+
+        imagePanel.setPreferredSize(new Dimension(120, 180));
+        imagePanel.setMaximumSize(new Dimension(120, 180));
+        imagePanel.setBackground(new Color(0, 100, 0));
 
         // Load UNO background image
-        ImageIcon icon = null;
         try {
             java.net.URL imageUrl = getClass().getClassLoader().getResource("images/uno_background.png");
             if (imageUrl != null) {
-                icon = new ImageIcon(imageUrl);
-                Image image = icon.getImage();
-                backgroundImage = image.getScaledInstance(120, 180, Image.SCALE_SMOOTH);
+                ImageIcon icon = new ImageIcon(imageUrl);
+                backgroundImage = icon.getImage().getScaledInstance(120, 180, Image.SCALE_SMOOTH);
             } else {
                 System.err.println("UNO background image not found");
                 backgroundImage = null;
@@ -34,35 +55,29 @@ public class DeckPanel extends APanel {
             backgroundImage = null;
         }
 
-        // Add label showing number of cards in deck
+        // Create label for card count
         cardsLabel = new ALabel("Cards: " + deck.size());
+        cardsLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         cardsLabel.setHorizontalAlignment(SwingConstants.CENTER);
-        cardsLabel.setForeground(Color.BLACK);
+        cardsLabel.setForeground(Color.WHITE);
         cardsLabel.setFont(new Font("Arial", Font.BOLD, 14));
+        cardsLabel.setOpaque(true);
+        cardsLabel.setBackground(new Color(0, 70, 0));
+        cardsLabel.setPreferredSize(new Dimension(120, 25));
+        cardsLabel.setMaximumSize(new Dimension(120, 25));
 
-        add(cardsLabel, BorderLayout.SOUTH);
-    }
+        // Add components to panel
+        add(Box.createVerticalStrut(5)); // Top margin
+        add(imagePanel);
+        add(Box.createVerticalStrut(5)); // Space between image and label
+        add(cardsLabel);
+        add(Box.createVerticalStrut(5)); // Bottom margin
 
-    @Override
-    protected void paintComponent(Graphics g) {
-        super.paintComponent(g);
-
-        // Draw the UNO background image
-        if (backgroundImage != null) {
-            g.drawImage(backgroundImage, 0, 0, getWidth(), getHeight(), this);
-        } else {
-            // Fallback if image is not found
-            g.setColor(new Color(220, 0, 0));
-            g.fillRect(0, 0, getWidth(), getHeight());
-            g.setColor(Color.WHITE);
-            g.drawString("UNO", getWidth()/2 - 15, getHeight()/2);
-        }
-
+        // Set overall panel dimensions
+        setPreferredSize(new Dimension(120, 220));
     }
 
     public void updateCardCount() {
-        if (cardsLabel != null) {
-            cardsLabel.setText("Cards: " + deck.size());
-        }
+        cardsLabel.setText("Cards: " + deck.size());
     }
 }

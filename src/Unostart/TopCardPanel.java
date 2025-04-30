@@ -6,90 +6,138 @@ import projetpoo.*;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.image.BufferedImage;
 import java.util.HashMap;
 import java.util.Map;
 
 public class TopCardPanel extends APanel {
     private final ALabel topCardLabel;
     private Card currentCard;
-    private final Map<String, ImageIcon> colorIcons = new HashMap<>(); // Store color images
-    private ImageIcon currentTopCardIcon;
+    private final Map<String, ImageIcon> cardImages = new HashMap<>();
+    private final Map<String, ImageIcon> colorImages = new HashMap<>();
 
     public TopCardPanel(Card topCard) {
-        // Amélioration du style pour le panel de carte
+        // Panel setup
         setBackground(new Color(0, 100, 0));
         setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         setPreferredSize(new Dimension(150, 200));
         setLayout(new BorderLayout());
-        loadColorImages();
-        // Ajout d'un effet d'ombre à la carte
-        APanel cardPanel = new APanel(new BorderLayout()) {
+
+        // Create card container with shadow effect
+        APanel cardContainer = new APanel(new BorderLayout()) {
             @Override
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
                 Graphics2D g2d = (Graphics2D) g;
-
-                // Dessiner une ombre légère
                 g2d.setColor(new Color(0, 0, 0, 50));
                 g2d.fillRoundRect(5, 5, getWidth() - 5, getHeight() - 5, 15, 15);
             }
         };
-        cardPanel.setBackground(new Color(0, 100, 0));
-        cardPanel.add(topCardLabel = new ALabel(), BorderLayout.CENTER);
-        add(cardPanel, BorderLayout.CENTER);
+        cardContainer.setBackground(new Color(0, 100, 0));
 
+        // Create the label for displaying the card
+        topCardLabel = new ALabel();
+        topCardLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        topCardLabel.setVerticalAlignment(SwingConstants.CENTER);
+
+        // Add components
+        cardContainer.add(topCardLabel, BorderLayout.CENTER);
+        add(cardContainer, BorderLayout.CENTER);
+
+        // Preload color images
+        preloadColorImages();
+
+        // Set initial top card
         setTopCard(topCard);
     }
 
-    private void loadColorImages() {
+    private void preloadColorImages() {
         final String[] colors = {"red", "green", "blue", "yellow"};
         for (String color : colors) {
-            colorIcons.put(color, loadCardImage("images/" + color + "_empty.png"));
+            String imagePath = "images/" + color + "_empty.png";
+            ImageIcon icon = loadImage(imagePath, 100, 150);
+            if (icon != null) {
+                colorImages.put(color, icon);
+                System.out.println("Preloaded color image: " + color);
+            }
         }
     }
 
     public void setTopCard(Card card) {
-        currentCard = card;
-        updateTopCardImage();
+        this.currentCard = card;
+        updateCardDisplay();
     }
 
     public void setTopCardColorImage(String color) {
-        System.out.println("setTopCardColorImage called with color: " + color);
-        ImageIcon colorIcon = colorIcons.get(color);
+        if (color == null || color.isEmpty()) {
+            System.out.println("Cannot set top card color: color is null or empty");
+            return;
+        }
+
+        color = color.toLowerCase();
+        ImageIcon colorIcon = colorImages.get(color);
+
         if (colorIcon != null) {
-            System.out.println("  Found colorIcon for " + color);
-            currentTopCardIcon = colorIcon;
-            topCardLabel.setIcon(currentTopCardIcon);
-            System.out.println("  Updated topCardLabel icon");
+            System.out.println("Setting top card to color: " + color);
+            topCardLabel.setIcon(colorIcon);
+            revalidate();
+            repaint();
         } else {
-            System.out.println("  No colorIcon found for " + color);
+            System.out.println("Color image not found in cache for: " + color + ", trying to load it directly");
+
+            // Try to load it on demand
+            String imagePath = "images/" + color + "_empty.png";
+            ImageIcon icon = loadImage(imagePath, 100, 150);
+
+            if (icon != null) {
+                colorImages.put(color, icon); // Cache it for future use
+                topCardLabel.setIcon(icon);
+                revalidate();
+                repaint();
+                System.out.println("Successfully loaded and set color image: " + color);
+            } else {
+                System.err.println("Failed to load color image: " + color);
+            }
         }
     }
 
-    private void updateTopCardImage() {
-        String imagePath = getCardImagePath(currentCard);
-        currentTopCardIcon = loadCardImage(imagePath);
-        if (currentTopCardIcon != null) {
-            topCardLabel.setIcon(currentTopCardIcon);
-        } else {
-            // Handle the case where the image failed to load.
-            // You might want to display a default image or log an error.
-            System.err.println("Failed to load image for: " + currentCard.toString());
-            topCardLabel.setText("Image Not Found"); // Or set a default image
+    private void updateCardDisplay() {
+        if (currentCard == null) {
+            topCardLabel.setIcon(null);
+            return;
         }
+
+        String imagePath = getCardImagePath(currentCard);
+        String cacheKey = imagePath;
+
+        // Check if we already have this image cached
+        ImageIcon cardIcon = cardImages.get(cacheKey);
+
+        if (cardIcon == null) {
+            // Not in cache, load it
+            cardIcon = loadImage(imagePath, 100, 150);
+            if (cardIcon != null) {
+                cardImages.put(cacheKey, cardIcon);
+            }
+        }
+
+        if (cardIcon != null) {
+            topCardLabel.setIcon(cardIcon);
+        } else {
+            System.err.println("Failed to load card image: " + imagePath);
+            topCardLabel.setText(currentCard.toString());
+        }
+
+        revalidate();
         repaint();
     }
 
-    private ImageIcon loadCardImage(String imagePath) {
+    private ImageIcon loadImage(String imagePath, int width, int height) {
         try {
             java.net.URL imageUrl = getClass().getClassLoader().getResource(imagePath);
             if (imageUrl != null) {
-                ImageIcon icon = new ImageIcon(imageUrl);
-                Image image = icon.getImage();
-                int width = 100;  // Desired width
-                int height = 150; // Desired height
-                Image resizedImage = image.getScaledInstance(width, height, Image.SCALE_SMOOTH);
+                ImageIcon originalIcon = new ImageIcon(imageUrl);
+                Image originalImage = originalIcon.getImage();
+                Image resizedImage = originalImage.getScaledInstance(width, height, Image.SCALE_SMOOTH);
                 return new ImageIcon(resizedImage);
             } else {
                 System.err.println("Image not found: " + imagePath);
@@ -104,8 +152,16 @@ public class TopCardPanel extends APanel {
 
     private String getCardImagePath(Card card) {
         if (card instanceof WildCard) {
+            if (card.getCouleur() != null && !card.getCouleur().isEmpty()) {
+                // If the wild card has a color assigned, use the empty color card
+                return "images/" + card.getCouleur().toLowerCase() + "_empty.png";
+            }
             return "images/wild.png";
         } else if (card instanceof WildDrawFourCard) {
+            if (card.getCouleur() != null && !card.getCouleur().isEmpty()) {
+                // If the wild draw four card has a color assigned, use the empty color card
+                return "images/" + card.getCouleur().toLowerCase() + "_empty.png";
+            }
             return "images/wild_draw_four.png";
         } else if (card instanceof Skip) {
             return "images/skip_" + card.getCouleur().toLowerCase() + ".png";
