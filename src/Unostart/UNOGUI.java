@@ -58,32 +58,54 @@ public class UNOGUI extends NFrame {
         gameBoardPanel.setLayout(new BorderLayout());
         gameBoardPanel.setBackground(new Color(0, 100, 0));
 
-        APanel centerGameArea = new APanel();
-        centerGameArea.setLayout(new FlowLayout(FlowLayout.CENTER, 30, 20));
+        // Center game area with GridBagLayout for true centering
+        APanel centerGameArea = new APanel(new GridBagLayout());
         centerGameArea.setBackground(new Color(0, 100, 0));
+
+        // Create a panel specifically for the cards
+        APanel cardsPanel = new APanel(new FlowLayout(FlowLayout.CENTER, 30, 20));
+        cardsPanel.setBackground(new Color(0, 100, 0));
 
         topCardPanel = new TopCardPanel(game.getTopCard());
         deckPanel = new DeckPanel(game.getDeck());
+
+        cardsPanel.add(topCardPanel);
+        cardsPanel.add(deckPanel);
+
+        // Add the cards panel to the center game area
+        centerGameArea.add(cardsPanel);
+
+        // Add log history button below the cards
+        APanel buttonPanel = new APanel(new FlowLayout(FlowLayout.CENTER));
+        buttonPanel.setBackground(new Color(0, 100, 0));
 
         NButton logHistoryButton = new NButton("Log History");
         logHistoryButton.setFont(new Font("Arial", Font.BOLD, 14));
         logHistoryButton.addActionListener(_ -> showLogHistory());
 
-        centerGameArea.add(topCardPanel);
-        centerGameArea.add(deckPanel);
-        centerGameArea.add(logHistoryButton);
+        buttonPanel.add(logHistoryButton);
 
+        // Add the main components to the game board
         gameBoardPanel.add(centerGameArea, BorderLayout.CENTER);
+        gameBoardPanel.add(buttonPanel, BorderLayout.SOUTH);
 
         createPlayerHandPanels();
 
+        // Configure player hand layouts based on number of players
         switch (numberplayer) {
             case 2:
                 gameBoardPanel.add(playerHandPanels.get(0), BorderLayout.SOUTH);
                 gameBoardPanel.add(playerHandPanels.get(1), BorderLayout.NORTH);
                 break;
             case 3:
-                gameBoardPanel.add(playerHandPanels.get(0), BorderLayout.SOUTH);
+                // Remove the buttonPanel from CENTER_SOUTH for 3 players
+                gameBoardPanel.remove(buttonPanel);
+
+                // Add the button panel to the main player's panel
+                APanel mainPlayerPanel = new APanel(new BorderLayout());
+                mainPlayerPanel.add(playerHandPanels.get(0), BorderLayout.CENTER);
+                mainPlayerPanel.add(buttonPanel, BorderLayout.NORTH);
+                gameBoardPanel.add(mainPlayerPanel, BorderLayout.SOUTH);
 
                 // Panel for the vertical player hand on the West side
                 APanel verticalWestPanel = new APanel(new BorderLayout());
@@ -96,18 +118,26 @@ public class UNOGUI extends NFrame {
                 gameBoardPanel.add(verticalEastPanel, BorderLayout.EAST);
                 break;
             case 4:
-                gameBoardPanel.add(playerHandPanels.get(0), BorderLayout.SOUTH);
+                // Remove the buttonPanel from CENTER_SOUTH for 4 players
+                gameBoardPanel.remove(buttonPanel);
 
-                // Create a panel to hold the vertical player hand
+                // Add the button panel to the main player's panel
+                APanel mainPlayerPanel4 = new APanel(new BorderLayout());
+                mainPlayerPanel4.add(playerHandPanels.get(0), BorderLayout.CENTER);
+                mainPlayerPanel4.add(buttonPanel, BorderLayout.NORTH);
+                gameBoardPanel.add(mainPlayerPanel4, BorderLayout.SOUTH);
+
+                // Create a panel for the left (West) player
                 APanel verticalWestPanel4 = new APanel(new BorderLayout());
-                verticalWestPanel4.add(playerHandPanels.get(1), BorderLayout.NORTH); // Or CENTER, adjust as needed
+                verticalWestPanel4.add(playerHandPanels.get(1), BorderLayout.CENTER);
                 gameBoardPanel.add(verticalWestPanel4, BorderLayout.WEST);
 
+                // Create a panel for the top (North) player
                 gameBoardPanel.add(playerHandPanels.get(2), BorderLayout.NORTH);
 
-                // Create a panel to hold the vertical player hand
+                // Create a panel for the right (East) player
                 APanel verticalEastPanel4 = new APanel(new BorderLayout());
-                verticalEastPanel4.add(playerHandPanels.get(3), BorderLayout.NORTH); // Or CENTER, adjust as needed
+                verticalEastPanel4.add(playerHandPanels.get(3), BorderLayout.CENTER);
                 gameBoardPanel.add(verticalEastPanel4, BorderLayout.EAST);
                 break;
         }
