@@ -38,7 +38,7 @@ public class UNOGUI extends NFrame {
 
     private void initializeUI() {
         APanel mainPanel = new APanel(new BorderLayout());
-        mainPanel.setBackground(new Color(240, 240, 240));
+        mainPanel.setBackground(new Color(0, 0, 0));
 
         APanel topPanel = new APanel(new BorderLayout());
         APanel playerInfoPanel = new APanel(new FlowLayout(FlowLayout.CENTER, 20, 10));
@@ -52,19 +52,19 @@ public class UNOGUI extends NFrame {
 
         APanel centerPanel = new APanel();
         centerPanel.setLayout(new BorderLayout());
-        centerPanel.setBackground(new Color(240, 240, 240));
+        centerPanel.setBackground(new Color(136, 115, 0));
 
         APanel gameBoardPanel = new APanel();
         gameBoardPanel.setLayout(new BorderLayout());
-        gameBoardPanel.setBackground(new Color(0, 100, 0));
+        gameBoardPanel.setBackground(new Color(133, 16, 16));
 
         // Center game area with GridBagLayout for true centering
         APanel centerGameArea = new APanel(new GridBagLayout());
-        centerGameArea.setBackground(new Color(0, 100, 0));
+        centerGameArea.setBackground(new Color(133, 16, 16));
 
         // Create a panel specifically for the cards
         APanel cardsPanel = new APanel(new FlowLayout(FlowLayout.CENTER, 30, 20));
-        cardsPanel.setBackground(new Color(0, 100, 0));
+        cardsPanel.setBackground(new Color(133, 16, 16));
 
         topCardPanel = new TopCardPanel(game.getTopCard());
         deckPanel = new DeckPanel(game.getDeck());
@@ -77,7 +77,7 @@ public class UNOGUI extends NFrame {
 
         // Add log history button below the cards
         APanel buttonPanel = new APanel(new FlowLayout(FlowLayout.CENTER));
-        buttonPanel.setBackground(new Color(0, 100, 0));
+        buttonPanel.setBackground(new Color(133, 16, 16));
 
         NButton logHistoryButton = new NButton("Log History");
         logHistoryButton.setFont(new Font("Arial", Font.BOLD, 14));

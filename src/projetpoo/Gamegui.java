@@ -22,7 +22,12 @@ public class Gamegui {
         this.scanner = new Scanner(System.in);
         initializePlayers(numberplayer,nom);
         // Draw initial top card from deck
-        this.topCard = deck.deck.removeFirst();
+        Card card = deck.deck.removeFirst();
+        while (card instanceof WildCard || card instanceof WildDrawFourCard){
+            deck.deck.add(card);
+            card = deck.deck.removeFirst();
+        }
+        this.topCard = card;
     }
 
     public Deck getDeck(){

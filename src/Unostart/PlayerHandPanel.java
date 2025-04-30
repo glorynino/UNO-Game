@@ -83,11 +83,11 @@ public class PlayerHandPanel extends APanel {
             }
         };
         cardsPanel.setLayout(null);
-        cardsPanel.setBackground(new Color(200, 200, 200));
+        cardsPanel.setBackground(new Color(246, 224, 61));
 
         AScrollPane scrollPane = new AScrollPane(cardsPanel);
-        scrollPane.setHorizontalScrollBarPolicy(isVertical ? JScrollPane.HORIZONTAL_SCROLLBAR_NEVER : JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-        scrollPane.setVerticalScrollBarPolicy(isVertical ? JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED : JScrollPane.VERTICAL_SCROLLBAR_NEVER);
+        scrollPane.setHorizontalScrollBarPolicy(isVertical ? AScrollPane.HORIZONTAL_SCROLLBAR_NEVER : AScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        scrollPane.setVerticalScrollBarPolicy(isVertical ? AScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED : AScrollPane.VERTICAL_SCROLLBAR_NEVER);
         scrollPane.setPreferredSize(isVertical ? new Dimension(CARD_WIDTH + 10, 600) : new Dimension(600, CARD_HEIGHT + 10));
 
         APanel controlPanel = new APanel(new FlowLayout(FlowLayout.CENTER));

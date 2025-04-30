@@ -17,7 +17,7 @@ public class TopCardPanel extends APanel {
 
     public TopCardPanel(Card topCard) {
         // Panel setup
-        setBackground(new Color(0, 100, 0));
+        setBackground(new Color(133, 16, 16));
         setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         setPreferredSize(new Dimension(150, 200));
         setLayout(new BorderLayout());
@@ -32,7 +32,7 @@ public class TopCardPanel extends APanel {
                 g2d.fillRoundRect(5, 5, getWidth() - 5, getHeight() - 5, 15, 15);
             }
         };
-        cardContainer.setBackground(new Color(0, 100, 0));
+        cardContainer.setBackground(new Color(133, 16, 16));
 
         // Create the label for displaying the card
         topCardLabel = new ALabel();
